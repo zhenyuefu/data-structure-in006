@@ -23,9 +23,12 @@ void afficher_table(int *t, int n) {
 
 int fct1(int *t, int n) {
   int somme = 0;
+  int x, x2 = 0;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      somme += pow(t[i] - t[j], 2);
+      x = t[i] - t[j];
+      x2 = x * x;
+      somme += x2;
     }
   }
   return somme;
@@ -44,27 +47,39 @@ int fct2(int *t, int n) {
 
 int main(void) {
   int *t;
-  struct timespec start1, end1, start2, end2;
+  // struct timespec start1, end1, start2, end2;
+  clock_t start, end;
+  double d;
   for (int n = 100; n <= 10000; n += 100) {
     alloue_table(&t, n);
     remplir_table(t, n);
 
-    timespec_get(&start1, TIME_UTC);
+    printf("%d ", n);
+    // timespec_get(&start1, TIME_UTC);
+    start = clock();
     fct1(t, n);
-    timespec_get(&end1, TIME_UTC);
+    // timespec_get(&end1, TIME_UTC);
+    end = clock();
+    d = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("%f ", d);
 
-    timespec_get(&start2, TIME_UTC);
+    start = clock();
+    // timespec_get(&start2, TIME_UTC);
     fct2(t, n);
-    timespec_get(&end2, TIME_UTC);
+    end = clock();
+    // timespec_get(&end2, TIME_UTC);
+    d = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("%f\n", d);
 
-    time_t d_sec1 = end1.tv_sec - start1.tv_sec;
-    long d_nsec1 = end1.tv_nsec - start1.tv_nsec;
-    long duration1 = d_sec1 * 1E9 + d_nsec1;
+    // time_t d_sec1 = end1.tv_sec - start1.tv_sec;
+    // long d_nsec1 = end1.tv_nsec - start1.tv_nsec;
+    // long duration1 = d_sec1 * 1E9 + d_nsec1;
 
-    time_t d_sec2 = end2.tv_sec - start2.tv_sec;
-    long d_nsec2 = end2.tv_nsec - start2.tv_nsec;
-    long duration2 = d_sec2 * 1E9 + d_nsec2;
-    printf("%d %d %d\n", n, duration1, duration2);
+    // time_t d_sec2 = end2.tv_sec - start2.tv_sec;
+    // long d_nsec2 = end2.tv_nsec - start2.tv_nsec;
+    // long duration2 = d_sec2 * 1E9 + d_nsec2;
+    // printf("%d %f %f\n", n, (double)duration1 / 1000000,
+    //  (double)duration2 / 1000000);
 
     desalloue_table(t, n);
   }

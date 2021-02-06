@@ -54,26 +54,38 @@ int diff2(int *mat, int n) {
 
 int main(void) {
   int *mat;
-  struct timespec start1, end1, start2, end2;
+  // struct timespec start1, end1, start2, end2;
+  clock_t start, end;
+  double d;
   for (int n = 100; n < 10000; n += 100) {
     alloue_matrice(&mat, n);
     remplir_matrice(mat, n);
 
-    timespec_get(&start1, TIME_UTC);
+    printf("%d ", n);
+
+    start = clock();
+    // timespec_get(&start1, TIME_UTC);
     diff1(mat, n);
-    timespec_get(&end1, TIME_UTC);
-    time_t d_sec1 = end1.tv_sec - start1.tv_sec;
-    long d_nsec1 = end1.tv_nsec - start1.tv_nsec;
-    long duration1 = d_sec1 * 1E9 + d_nsec1;
+    end = clock();
+    d = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("%f ", d);
+    // timespec_get(&end1, TIME_UTC);
+    // time_t d_sec1 = end1.tv_sec - start1.tv_sec;
+    // long d_nsec1 = end1.tv_nsec - start1.tv_nsec;
+    // long duration1 = d_sec1 * 1E9 + d_nsec1;
 
-    timespec_get(&start2, TIME_UTC);
+    start = clock();
+    // timespec_get(&start2, TIME_UTC);
     diff2(mat, n);
-    timespec_get(&end2, TIME_UTC);
+    end = clock();
+    d = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("%f\n", d);
+    // timespec_get(&end2, TIME_UTC);
 
-    time_t d_sec2 = end2.tv_sec - start2.tv_sec;
-    long d_nsec2 = end2.tv_nsec - start2.tv_nsec;
-    long duration2 = d_sec2 * 1E9 + d_nsec2;
-    printf("%d %d %d\n", n, duration1, duration2);
+    // time_t d_sec2 = end2.tv_sec - start2.tv_sec;
+    // long d_nsec2 = end2.tv_nsec - start2.tv_nsec;
+    // long duration2 = d_sec2 * 1E9 + d_nsec2;
+    // printf("%d %d %d\n", n, duration1, duration2);
 
     desalloue_matrice(mat, n);
   }
