@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.ml": "ocaml",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "time.h": "c"
     }
 }

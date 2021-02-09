@@ -1,16 +1,28 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+
 
 #define V 10000
 
 void alloue_matrice(int **mat, int n) { *mat = malloc(n * n * sizeof(int)); }
 
+void alloue_matrice_triangulaire(int **mat, int n) {
+  *mat = malloc(n * (n + 1) / 2 * sizeof(int));
+}
+
 void desalloue_matrice(int *mat, int n) { free(mat); }
 
+void desalloue_matrice_triangulaire(int *mat, int n) { free(mat); }
+
+void remplir_matrice_triangulaire(int *mat, int n) {
+  
+  for (int i = 0; i < n * (n + 1) / 2; i++) {
+    *(mat + i) = rand() % V;
+  }
+}
+
 void remplir_matrice(int *mat, int n) {
-  srand(time(NULL));
+ 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       *(mat + i * n + j) = rand() % V;
@@ -52,42 +64,25 @@ int diff2(int *mat, int n) {
   return 1;
 }
 
-int main(void) {
-  int *mat;
-  // struct timespec start1, end1, start2, end2;
-  clock_t start, end;
-  double d;
-  for (int n = 100; n < 10000; n += 100) {
-    alloue_matrice(&mat, n);
-    remplir_matrice(mat, n);
-
-    printf("%d ", n);
-
-    start = clock();
-    // timespec_get(&start1, TIME_UTC);
-    diff1(mat, n);
-    end = clock();
-    d = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f ", d);
-    // timespec_get(&end1, TIME_UTC);
-    // time_t d_sec1 = end1.tv_sec - start1.tv_sec;
-    // long d_nsec1 = end1.tv_nsec - start1.tv_nsec;
-    // long duration1 = d_sec1 * 1E9 + d_nsec1;
-
-    start = clock();
-    // timespec_get(&start2, TIME_UTC);
-    diff2(mat, n);
-    end = clock();
-    d = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", d);
-    // timespec_get(&end2, TIME_UTC);
-
-    // time_t d_sec2 = end2.tv_sec - start2.tv_sec;
-    // long d_nsec2 = end2.tv_nsec - start2.tv_nsec;
-    // long duration2 = d_sec2 * 1E9 + d_nsec2;
-    // printf("%d %d %d\n", n, duration1, duration2);
-
-    desalloue_matrice(mat, n);
+void mat_produit(int *mat1, int *mat2, int *res, int n) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      *(res + i * n + j) = 0;
+      for (int k = 0; k < n; k++) {
+        *(res + i * n + j) += *(mat1 + i * n + k) * *(mat2 + k * n + j);
+      }
+    }
   }
-  return 0;
+}
+
+void mat_produit_sup_inf(int *mat_sup, int *mat_inf, int *res, int n) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      res[i * n + j] = 0;
+      for (int k = i > j ? i : j; k < n; k++) {
+        res[i * n + j] += mat_sup[n * i - i * (i + 1) / 2 + k] *
+                          mat_inf[k * (k + 1) / 2 + j];
+      }
+    }
+  }
 }
