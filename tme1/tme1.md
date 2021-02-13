@@ -1,3 +1,10 @@
+# Mini Projet 1 : Outils de débogue, tableaux et complexité
+## Exercise 1
+### Q 1.1
+Créez un tableau de taille 10. Lorsque le `tab[i]=i`.
+`segmentation fault(core dumped)`
+
+### Q 1.2
 ```
 =thread-group-added,id="i1"
 GNU gdb (Debian 8.2.1-2+b3) 8.2.1
@@ -65,8 +72,18 @@ Kill the program being debugged? (y or n) [answered Y; input not from terminal]
 [Inferior 1 (process 9100) killed]
 The program '/home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1' has exited with code 0 (0x00000000).
 ```
+### Q 1.3
 
+On modifie la ligne 12 `for (i = 0; i < len; i++)`
 
+### Q 1.4
+Le programme crée une structure d'adresse et l'imprime.
+`segmentation fault(core dumped)`
+
+### Q 1.5
+`new->rue=0x0`
+Nous n'avons pas alloué de mémoire pour la `rue`, donc nous ne pouvons pas le copier.
+Le programme est sorti à la ligne 16.
 ```
 Loaded '/lib64/ld-linux-x86-64.so.2'. Symbols loaded.
 
@@ -86,6 +103,17 @@ The program no longer exists.
 The program '/home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p2' has exited with code 0 (0x00000000).
 ```
 
+### Q 1.6
+Ce programme crée un tableau de taille `maxTaille` et peut afficher les éléments qui sont déjà dans le tableau.
+```
+t->position = 5
+[ 5 18 99999 -452 4587 ]
+```
+### Q 1.7
+On a alloué une mémoire de table, mais on ne l'a pas libérée.
+
+### Q 1.8
+Un tableau de 100 types d'int occupe 400 octets de mémoire
 ```
 ==10143== Memcheck, a memory error detector
 ==10143== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
@@ -116,6 +144,8 @@ t->position = 5
 ==10143== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
 
+### Q 1.9
+On ajoute `free(t->tab)` avant `free(t)`.
 ```
 ==10269== Memcheck, a memory error detector
 ==10269== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
@@ -135,3 +165,34 @@ t->position = 5
 ==10269== For counts of detected and suppressed errors, rerun with: -v
 ==10269== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
+
+## Exercise 2
+
+### Partie 1
+Le deuxième algorithme utilise le
+\[
+2n\times\sum_{i=1}^n{t_i^2} - 2\times(\sum_{i=1}^n{t_i})^2
+\]
+
+La courbe résultante est indiquée dans le fichier `ex02/01_courbes_vitesse.pdf`.
+On observe que le temps requis par le premier algorithme dépasse largement le temps requis par le second. Il devrait être que le premier algorithme effectue deux niveaux de boucles, alors que le second algorithme n'utilise qu'un seul niveau de boucles.
+
+### Partie 2
+Toutes les fonctions sont dans `matrix.c`.
+Les deux main programmes sont `matrix_diff.c` et `matrix_produit.c`
+
+J'ai toujours utilisé un tableau 1 dimensionnel pour stocker la matrice.
+J'utilise `m[i*n+j]`ou`*(m+i*n+j)` au lieu de `m[i][j]`.
+Plus précisément, comme indiqué dans la classe, la multiplication est plus rapide dans le système que la lecture de la mémoire.
+Et il est plus facile d'allouer de l'espace mémoire et de le libérer pour la matrice.
+Je remplace également la matrice triangulaire par un tableau unidimensionnel de taille `n*(n+1)/2`, où `m[n*i-i*(i+1)/2+j]` représente la matrice triangulaire supérieure et `m[i*(i+1)/2+j]` représente la matrice triangulaire inférieure.
+Cela permet d'éviter la nécessité de générer des tableaux complexes à deux dimensions, et il n'est pas nécessaire de créer des structures différentes pour les matrices triangulaires supérieure et inférieure.
+
+### matrice ont des valeurs différentes
+La courbe résultante est indiquée dans le fichier `ex02/02_courbes_vitesse.pdf`.
+Le premier algorithme utilise 4 niveaux de boucles, tandis que le second utilise l'espace pour le temps, n'utilise que 2 niveaux de boucles, et est plus susceptible de trouver des valeurs doubles à l'avance et à la sortie.
+
+### matrice produit
+La courbe résultante est indiquée dans le fichier `ex02/matrice_produit_courbes_vitesse.pdf`.
+Dans le premier algorithme, la moitié des valeurs 0 sont stockées dans la matrice.
+Et le second algorithme saute ces valeurs 0, optimisant ainsi l'espace et le temps.

@@ -84,5 +84,5 @@ void mat_produit_sup_inf(int *mat_sup, int *mat_inf, int *res, int n) {
                           mat_inf[k * (k + 1) / 2 + j];
       }
     }
-  }
+  } 
 }
