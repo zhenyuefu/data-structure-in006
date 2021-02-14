@@ -14,7 +14,6 @@ Adresse* creer_adresse(int n, char* r, int c) {
   new->numero = n;
   strcpy(new->rue, r);
   new->code_postal = c;
-
   return new;
 }
 

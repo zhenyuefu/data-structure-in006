@@ -1,9 +1,9 @@
 # Mini Projet 1 : Outils de débogue, tableaux et complexité
 ## Exercise 1
 ### Q 1.1
-Créez un tableau de taille 10. Lorsque le `tab[i]=i`.
-
-`segmentation fault(core dumped)`
+La fonction permet de remplir un tableau de 10 entiers. Lors de son exécution, on constate un `segmentation fault(core dumped)`
+A la sortie de la boucle `for`, `i` vaut `-1` or `i` n’est pas signée.
+Pour résoudre le problème, on remplit notre tableau dans l’ordre croissant, pour être sûr que la variable `i` ne soit pas négative de sorte à commencer par le premier indice 0.
 
 ### Q 1.2
 ```
@@ -78,15 +78,21 @@ The program '/home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1' has 
 On modifie la ligne 12 `for (i = 0; i < len; i++)`
 
 ### Q 1.4
-Le programme crée une structure d'adresse et l'imprime.
+La fonction crée une structure Adresse nommée « maison » dont les éléments qui la compose sont : le numéro, la rue ainsi que le code postal.
 
-`segmentation fault(core dumped)`
+La fonction est censée afficher :
+Adresse courante : 12 rue manoeuvre 15670 France 
+
+A l’exécution, on constate un `segmentation fault(core dumped)`
 
 ### Q 1.5
 `new->rue=0x0`
 
 Nous n'avons pas alloué de mémoire pour la `rue`, donc nous ne pouvons pas le copier.
 Le programme est sorti à la ligne 16.
+La chaine de caractère qui doit stocker le nom de la rue n’a pas été alloué statistiquement ou dynamiquement. La mémoire allouée doit être fixe c’est pour cela qu’on décide d’utiliser `strdup` qui copie la chaine mais alloue l'espace nécessaire au stockage en mémoire de la copie.
+On oubli pas de libérer la mémoire alloué destiné à stocker le nom de la rue。
+Pour éviter d'oublier de libérer la mémoire, nous allouons la mémoire manuellement au lieu d'utiliser des `strdup`
 ```
 Loaded '/lib64/ld-linux-x86-64.so.2'. Symbols loaded.
 
@@ -107,16 +113,14 @@ The program '/home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p2' has 
 ```
 
 ### Q 1.6
-Ce programme crée un tableau de taille `maxTaille` et peut afficher les éléments qui sont déjà dans le tableau.
+La fonction crée une structure `Tableau t` composé d’un tableau d’entier, une taille définie, ainsi qu’un repère position qui va permettre de placer nos entiers au bon indice à chaque appel de `ajouterElement`.
+La fonction affiche sans aucune interruption :
 ```
 t->position = 5
 [ 5 18 99999 -452 4587 ]
 ```
-### Q 1.7
-On a alloué une mémoire de table, mais on ne l'a pas libérée.
 
-### Q 1.8
-Un tableau de 100 types d'int occupe 400 octets de mémoire
+Mais en regardant de plus près avec valgrind, 3 allocations et 2 libérations de mémoires ont été effectuées et il y a une fuite mémoire de 400 bytes. On remarque que le tableau de la structure n’a pas été libéré. 
 ```
 ==10143== Memcheck, a memory error detector
 ==10143== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
@@ -148,7 +152,7 @@ t->position = 5
 ```
 
 ### Q 1.9
-On ajoute `free(t->tab)` avant `free(t)`.
+On rajoute donc une ligne `free(t->tab)` avant de libérer la structure.
 ```
 ==10269== Memcheck, a memory error detector
 ==10269== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
@@ -178,7 +182,7 @@ $$
 $$
 
 La courbe résultante est indiquée dans le fichier `ex02/01_courbes_vitesse.pdf`.
-On observe que le temps requis par le premier algorithme dépasse largement le temps requis par le second. Il devrait être que le premier algorithme effectue deux niveaux de boucles, alors que le second algorithme n'utilise qu'un seul niveau de boucles.
+Au vu des courbes résultantes, on peut remarquer que le premier algorithme est plus conséquent en temps d’exécution car l’algorithme contient deux boucles for imbriquées, de complexité de $n^2$ tandis que le deuxième algorithme n’a qu’une seul boucle et de complexité $n$, ce qui a son sens.
 
 ### Partie 2
 Toutes les fonctions sont dans `matrix.c`.
