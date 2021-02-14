@@ -2,6 +2,7 @@
 ## Exercise 1
 ### Q 1.1
 Créez un tableau de taille 10. Lorsque le `tab[i]=i`.
+
 `segmentation fault(core dumped)`
 
 ### Q 1.2
@@ -78,10 +79,12 @@ On modifie la ligne 12 `for (i = 0; i < len; i++)`
 
 ### Q 1.4
 Le programme crée une structure d'adresse et l'imprime.
+
 `segmentation fault(core dumped)`
 
 ### Q 1.5
 `new->rue=0x0`
+
 Nous n'avons pas alloué de mémoire pour la `rue`, donc nous ne pouvons pas le copier.
 Le programme est sorti à la ligne 16.
 ```
@@ -170,9 +173,9 @@ t->position = 5
 
 ### Partie 1
 Le deuxième algorithme utilise le
-\[
+$$
 2n\times\sum_{i=1}^n{t_i^2} - 2\times(\sum_{i=1}^n{t_i})^2
-\]
+$$
 
 La courbe résultante est indiquée dans le fichier `ex02/01_courbes_vitesse.pdf`.
 On observe que le temps requis par le premier algorithme dépasse largement le temps requis par le second. Il devrait être que le premier algorithme effectue deux niveaux de boucles, alors que le second algorithme n'utilise qu'un seul niveau de boucles.
