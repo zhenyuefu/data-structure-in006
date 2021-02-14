@@ -3,7 +3,7 @@
 ### Q 1.1
 La fonction permet de remplir un tableau de 10 entiers. Lors de son exécution, on constate un `segmentation fault(core dumped)`
 A la sortie de la boucle `for`, `i` vaut `-1` or `i` n’est pas signée.
-Pour résoudre le problème, on remplit notre tableau dans l’ordre croissant, pour être sûr que la variable `i` ne soit pas négative de sorte à commencer par le premier indice 0.
+Pour résoudre le problème, on remplit notre tableau dans l’ordre croissant, pour être sûr que la variable `i` ne soit pas négative de sorte à commencer par le premier indice `0`.
 
 ### Q 1.2
 ```
@@ -120,7 +120,7 @@ t->position = 5
 [ 5 18 99999 -452 4587 ]
 ```
 
-Mais en regardant de plus près avec valgrind, 3 allocations et 2 libérations de mémoires ont été effectuées et il y a une fuite mémoire de 400 bytes. On remarque que le tableau de la structure n’a pas été libéré. 
+Mais en regardant de plus près avec `valgrind`, 3 allocations et 2 libérations de mémoires ont été effectuées et il y a une fuite mémoire de 400 bytes. On remarque que le tableau de la structure n’a pas été libéré. 
 ```
 ==10143== Memcheck, a memory error detector
 ==10143== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
