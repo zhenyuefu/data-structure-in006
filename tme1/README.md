@@ -6,6 +6,8 @@ A la sortie de la boucle `for`, `i` vaut `-1` or `i` n’est pas signée.
 Pour résoudre le problème, on remplit notre tableau dans l’ordre croissant, pour être sûr que la variable `i` ne soit pas négative de sorte à commencer par le premier indice `0`.
 
 ### Q 1.2
+`i` vaut `4294967295` apres `i` vaut `0`.
+Apparemment, l'accès à `tab[4294967295]` fait apparaître une `segmentation fault(core dumped)`
 ```
 =thread-group-added,id="i1"
 GNU gdb (Debian 8.2.1-2+b3) 8.2.1
@@ -60,11 +62,15 @@ Breakpoint 2, main () at /home/zhenyue/data-structure-in006/code_exercice1/tme1_
 Breakpoint 2, main () at /home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1.c:13
 13	    tab[i] = i;
 
-Breakpoint 2, main () at /home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1.c:13
+Breakpoint 2, main () at /home/zhenyue/data-structure-in006/tme1/code_exercice1/tme1_exo1p1.c:13
 13	    tab[i] = i;
+i
+0
 
 Breakpoint 2, main () at /home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1.c:13
 13	    tab[i] = i;
+i
+4294967295
 
 Program received signal SIGSEGV, Segmentation fault.
 0x0000000008001174 in main () at /home/zhenyue/data-structure-in006/code_exercice1/tme1_exo1p1.c:13
