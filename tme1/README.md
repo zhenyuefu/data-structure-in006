@@ -1,13 +1,14 @@
 # Mini Projet 1 : Outils de débogue, tableaux et complexité
-## Exercise 1
+## Exercice 1
 ### Q 1.1
 La fonction permet de remplir un tableau de 10 entiers. Lors de son exécution, on constate un `segmentation fault(core dumped)`
 A la sortie de la boucle `for`, `i` vaut `-1` or `i` n’est pas signée.
 Pour résoudre le problème, on remplit notre tableau dans l’ordre croissant, pour être sûr que la variable `i` ne soit pas négative de sorte à commencer par le premier indice `0`.
 
 ### Q 1.2
-`i` vaut `4294967295` apres `i` vaut `0`.
+`i` vaut `4294967295` après `i` vaut `0`.
 Apparemment, l'accès à `tab[4294967295]` fait apparaître une `segmentation fault(core dumped)`
+
 ```
 =thread-group-added,id="i1"
 GNU gdb (Debian 8.2.1-2+b3) 8.2.1
@@ -87,7 +88,7 @@ On modifie la ligne 12 `for (i = 0; i < len; i++)`
 La fonction crée une structure Adresse nommée « maison » dont les éléments qui la compose sont : le numéro, la rue ainsi que le code postal.
 
 La fonction est censée afficher :
-Adresse courante : 12 rue manoeuvre 15670 France 
+Adresse courante : 12 rue manœuvre 15670 France 
 
 A l’exécution, on constate un `segmentation fault(core dumped)`
 
@@ -179,7 +180,7 @@ t->position = 5
 ==10269== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
-## Exercise 2
+## Exercice 2
 
 ### Partie 1
 Le deuxième algorithme utilise le
