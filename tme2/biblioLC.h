@@ -1,3 +1,6 @@
+#ifndef BIBLIOLC_H_
+#define BIBLIOLC_H_
+
 typedef struct livre {
   int num;
   char* titre;
@@ -28,3 +31,11 @@ Livre* recherche_livre_par_num(int num, Biblio* b);
 Livre* recherche_livre_par_titre(char* titre, Biblio* b);
 
 Biblio* recherche_livres_meme_auteur(char* auteur, Biblio* b);
+
+void supprimer_livre(Biblio *b, int num, char *titre, char *auteur);
+
+void fusion(Biblio* b1, Biblio* b2);
+
+Biblio* recherche_exemplaires(Biblio* b);
+
+#endif
