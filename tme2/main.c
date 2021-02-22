@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "biblioLC.h"
 #include "entreeSortieLC.h"
+
 void usage(char* s) {
   printf("Usage:%s <filename> <ligne>\n", s);
   exit(EXIT_FAILURE);
