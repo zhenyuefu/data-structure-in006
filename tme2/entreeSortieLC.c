@@ -1,48 +1,55 @@
 #include "entreeSortieLC.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
-Biblio* charger_n_entrees(char* nomfic, int n, Biblio* b) {
-  FILE* f = fopen(nomfic, "r");
+Biblio* charger_n_entrees(char* nomfic, int n) {
+  FILE* fp;
 
-  if (f == NULL) {
-    printf("Erreur lors de l'ouverture du fichier\n");
-    exit(1);
+  if ((fp = fopen(nomfic, "r")) == NULL) {
+    printf("Can't open %s\n", nomfic);
+    exit(EXIT_FAILURE);
   }
 
-  char ligne[100];
-  char* titre;
-  char* auteur;
+  Biblio* b;
+  if ((b = creer_biblio()) == NULL) {
+    puts("Can't creat biblio!");
+    return NULL;
+  }
+
+  char ligne[256];
+  char titre[256];
+  char auteur[256];
   int num;
   int cpt = 0;
 
-  while (fgets(ligne, 100, f)) {
+  while (fgets(ligne, 256, fp)) {
     if (cpt == n) {
       break;
     }
-    sscanf("%d %s %s", &num, &titre, &auteur);
+    sscanf(ligne, "%d %s %s", &num, titre, auteur);
     inserer_en_tete(b, num, titre, auteur);
     cpt++;
   }
 
-  fclose(f);
+  if (fclose(fp)) printf("Error in closing file %s\n", nomfic);
 
   return b;
 }
 
 void enregistrer_biblio(Biblio* b, char* nomfic) {
-  FILE* f = fopen(nomfic, "w");
+  FILE* fp;
 
-  if (f == NULL) {
-    printf("Erreur lors de l'ouverture du fichier\n");
-    exit(1);
+  if ((fp = fopen(nomfic, "w")) == NULL) {
+    printf("Can't open %s\n", nomfic);
+    exit(EXIT_FAILURE);
   }
 
   Livre* l = b->L;
   while (l) {
-    fprintf(f, "%d %s %s\n", l->num, l->titre, l->auteur);
+    fprintf(fp, "%d %s %s\n", l->num, l->titre, l->auteur);
     l = l->suiv;
   }
 
-  fclose(f);
+  if (fclose(fp)) printf("Error in closing file %s\n", nomfic);
 }
