@@ -56,14 +56,27 @@ void inserer_en_tete(Biblio* b, int num, char* titre, char* auteur) {
 }
 
 void afficher_livre(Livre* l) {
+  if (l == NULL) {
+    puts("error: livre is NULL!");
+    return;
+  }
   printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
 }
 
 void afficher_biblio(Biblio* b) {
+  if (b == NULL) {
+    puts("error: biblio is NULL!");
+    return;
+  }
   Livre* l = b->L;
-  do {
+  if (l == NULL){
+    puts("error: this biblio has no book!");
+    return;
+  }
+  while (l != NULL) {
     afficher_livre(l);
-  } while ((l = l->suiv) != NULL);
+    l = l->suiv;
+  }
 }
 
 Livre* recherche_livre_par_num(int num, Biblio* b) {
@@ -136,20 +149,14 @@ Biblio* recherche_exemplaires(Biblio* b) {
   }
   Livre* l = b->L;
   Livre* l2;
-  int inser = 0;
   while (l != NULL) {
     l2 = b->L;
     while (l2 != NULL) {
       if (l != l2 && strcmp(l2->titre, l->titre) == 0 &&
           strcmp(l2->auteur, l->auteur) == 0) {
         inserer_en_tete(b_new, l2->num, l2->titre, l2->auteur);
-        inser = 1;
       }
       l2 = l2->suiv;
-    }
-    if (inser == 1) {
-      inserer_en_tete(b_new, l->num, l->titre, l->auteur);
-      inser = 0;
     }
     l = l->suiv;
   }
