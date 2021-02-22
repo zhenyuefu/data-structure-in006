@@ -101,3 +101,57 @@ Biblio* recherche_livres_meme_auteur(char* auteur, Biblio* b) {
   }
   return b_new;
 }
+
+void supprimer_livre(Biblio* b, int num, char* titre, char* auteur) {
+  Livre* curr;
+  /* The pointer points to the address of the "suiv" of the previous node */
+  Livre** suivp = &(b->L);
+  while ((curr = *suivp) != NULL &&
+         (curr->num != num || strcmp(titre, curr->titre) != 0 ||
+          strcmp(auteur, curr->auteur) != 0)) {
+    suivp = &curr->suiv;
+  }
+  if (curr == NULL) return;
+  *suivp = curr->suiv;
+  liberer_livre(curr);
+}
+
+void fusion(Biblio* b1, Biblio* b2) {
+  Livre** lp = &b2->L;
+  Livre* curr;
+  while ((curr = *lp) != NULL) {
+    lp = &curr->suiv;
+  }
+  *lp = b1->L;
+  b1->L = b2->L;
+  b2->L = NULL;
+  liberer_biblio(b2);
+}
+
+Biblio* recherche_exemplaires(Biblio* b) {
+  Biblio* b_new;
+  if ((b_new = creer_biblio()) == NULL) {
+    puts("Can't create biblio");
+    return NULL;
+  }
+  Livre* l = b->L;
+  Livre* l2;
+  int inser = 0;
+  while (l != NULL) {
+    l2 = b->L;
+    while (l2 != NULL) {
+      if (l != l2 && strcmp(l2->titre, l->titre) == 0 &&
+          strcmp(l2->auteur, l->auteur) == 0) {
+        inserer_en_tete(b_new, l2->num, l2->titre, l2->auteur);
+        inser = 1;
+      }
+      l2 = l2->suiv;
+    }
+    if (inser == 1) {
+      inserer_en_tete(b_new, l->num, l->titre, l->auteur);
+      inser = 0;
+    }
+    l = l->suiv;
+  }
+  return b_new;
+}
