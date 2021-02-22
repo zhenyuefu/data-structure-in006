@@ -4,7 +4,7 @@ objects = biblioLC.o entreeSortieLC.o main.o
 biblio : $(objects)
 	$(CC) -o $@ $(CFLAGS) $(objects)
 main.o : entreeSortieLC.h biblioLC.h
-entreeSortieLC.o : entreeSortieLC.h
+entreeSortieLC.o : entreeSortieLC.h biblioLC.h
 biblio.o : biblioLC.h
 .PHONY : clean
 clean :
