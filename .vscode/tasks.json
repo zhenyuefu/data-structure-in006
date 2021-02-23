@@ -42,6 +42,7 @@
             "options": {
                 "cwd": "${fileDirname}"
             },
+            "problemMatcher": []
         }
     ],
     "version": "2.0.0"
