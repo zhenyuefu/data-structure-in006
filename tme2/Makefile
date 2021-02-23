@@ -5,7 +5,7 @@ biblio : $(objects)
 	$(CC) -o $@ $(CFLAGS) $(objects)
 main.o : entreeSortieLC.h biblioLC.h
 entreeSortieLC.o : entreeSortieLC.h biblioLC.h
-biblio.o : biblioLC.h
+biblioLC.o : biblioLC.h
 .PHONY : clean
 clean :
 	-rm biblio $(objects)
