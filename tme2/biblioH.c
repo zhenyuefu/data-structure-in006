@@ -1,6 +1,8 @@
 #include "biblioH.h"
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int fonctionClef(char* auteur) {
   int somme = 0;
@@ -11,8 +13,8 @@ int fonctionClef(char* auteur) {
   return somme;
 }
 
-LivreH* create_libre(int num, char* titre, char* auteur) {
-  LivreH* lh = malloc(sizeof(LivreH));
+LivreH* creer_livre(int num, char* titre, char* auteur) {
+  LivreH* lh = (LivreH*)malloc(sizeof(LivreH));
   if (lh == NULL) return NULL;
   lh->titre = (char*)malloc(strlen(titre) + 1);
   if (lh->titre == NULL) {
@@ -44,18 +46,20 @@ BiblioH* creer_biblio(int m) {
     free(b);
     return NULL;
   }
+  /* Initialisation des tableaux */
+  memset(b->T, 0, sizeof(LivreH*) * b->m);
   return b;
 }
 
 void liberer_biblio(BiblioH* b) {
   LivreH** tab = b->T;
 
-  for (int i = 0; i < (b->m); i++) liberer_livreH(&tab[i]);
+  for (int i = 0; i < (b->m); i++) liberer_livre(&tab[i]);
   free(b->T);
   free(b);
 }
 
-void liberer_livreH(LivreH** lh) {
+void liberer_livre(LivreH** lh) {
   LivreH* curr = *lh;
 
   while ((curr = *lh) != NULL) {
@@ -63,5 +67,49 @@ void liberer_livreH(LivreH** lh) {
     free(curr->auteur);
     free(curr->titre);
     free(curr);
+  }
+}
+
+int fonctionHachage(int cle, int m) {
+  return (int)(m * ((double)cle * GOLDEN - (int)(cle * GOLDEN)));
+}
+
+void inserer(BiblioH* b, int num, char* titre, char* auteur) {
+  LivreH* l = creer_livre(num, titre, auteur);
+  if (l == NULL) {
+    puts("error:creer_livre");
+    return;
+  }
+  int hash = fonctionHachage(l->clef, b->m);
+  l->suivant = b->T[hash];
+  b->T[hash] = l;
+  b->nE++;
+}
+
+void afficher_livre(LivreH* l) {
+  if (l == 0 || l == NULL) {
+    return;
+  }
+  printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
+}
+
+void afficher_biblio(BiblioH* b) {
+  if (b == NULL) {
+    puts("error: biblio is NULL!");
+    return;
+  }
+  if (b->nE == 0) {
+    puts("This biblio has no book!");
+    return;
+  }
+
+  LivreH* l;
+
+  for (int i = 0; i < (b->m); i++) {
+    l = b->T[i];
+    while (l) {
+      afficher_livre(l);
+      l = l->suivant;
+    }
   }
 }
