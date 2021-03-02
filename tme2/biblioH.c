@@ -87,7 +87,7 @@ void inserer(BiblioH* b, int num, char* titre, char* auteur) {
 }
 
 void afficher_livre(LivreH* l) {
-  if (l == 0 || l == NULL) {
+  if (l == NULL) {
     return;
   }
   printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
