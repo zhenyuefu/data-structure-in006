@@ -69,7 +69,7 @@ void afficher_biblio(Biblio* b) {
     return;
   }
   Livre* l = b->L;
-  if (l == NULL){
+  if (l == NULL) {
     puts("error: this biblio has no book!");
     return;
   }
@@ -91,7 +91,7 @@ Livre* recherche_livre_par_num(int num, Biblio* b) {
 
 Livre* recherche_livre_par_titre(char* titre, Biblio* b) {
   Livre* l = b->L;
-  while (l != NULL && strcmp(titre, l->titre) == 0) {
+  while (l != NULL && strcmp(titre, l->titre) != 0) {
     l = l->suiv;
   }
   if (l == NULL) return NULL;
