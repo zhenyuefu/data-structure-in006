@@ -59,6 +59,7 @@ void liberer_biblio(BiblioH* b) {
   free(b);
 }
 
+/* Cette fonction permettra de libérer tous les livres sur la liste chainee */
 void liberer_livre(LivreH** lh) {
   LivreH* curr = *lh;
 
@@ -90,7 +91,18 @@ void afficher_livre(LivreH* l) {
   if (l == NULL) {
     return;
   }
+
   printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
+}
+
+void afficher_livreH(LivreH* l) {
+  if (l == NULL) {
+    return;
+  }
+  while (l) {
+    afficher_livre(l);
+    l = l->suivant;
+  }
 }
 
 void afficher_biblio(BiblioH* b) {
@@ -107,9 +119,81 @@ void afficher_biblio(BiblioH* b) {
 
   for (int i = 0; i < (b->m); i++) {
     l = b->T[i];
-    while (l) {
-      afficher_livre(l);
+    afficher_livreH(l);
+  }
+}
+
+LivreH* recherche_livre_par_num(int num, BiblioH* b) {
+  LivreH* l;
+  for (int i = 0; i < b->m; i++) {
+    l = b->T[i];
+    while (l != NULL && l->num != num) {
       l = l->suivant;
     }
+    if (l != NULL) return l;
   }
+  return NULL;
+}
+
+LivreH* recherche_livre_par_titre(char* titre, BiblioH* b) {
+  LivreH* l;
+  for (int i = 0; i < b->m; i++) {
+    l = b->T[i];
+    while (l != NULL && strcmp(titre, l->titre) != 0) {
+      l = l->suivant;
+    }
+    if (l != NULL) return l;
+  }
+  return NULL;
+}
+
+BiblioH* recherche_livres_meme_auteur(char* auteur, BiblioH* b) {
+  int cle = fonctionClef(auteur);
+  int hash = fonctionHachage(cle, b->m);
+  BiblioH* b_new = creer_biblio(b->m);
+  LivreH* l = b->T[hash];
+  while (l != NULL) {
+    if (strcmp(auteur, l->auteur) == 0) {
+      inserer(b_new, l->num, l->titre, l->auteur);
+    }
+    l = l->suivant;
+  }
+  return b_new;
+}
+
+void supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
+  int cle = fonctionClef(auteur);
+  int hash = fonctionHachage(cle, b->m);
+  LivreH* curr;
+  /* The pointer points to the address of the "suiv" of the previous node */
+  LivreH** suivp = &(b->T[hash]);
+  while ((curr = *suivp) != NULL &&
+         (curr->num != num || strcmp(titre, curr->titre) != 0 ||
+          strcmp(auteur, curr->auteur) != 0)) {
+    suivp = &curr->suivant;
+  }
+  if (curr == NULL) return;
+  *suivp = curr->suivant;
+  /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez la chaîne */
+  curr->suivant = NULL;
+  liberer_livre(&curr);
+}
+
+/* to do */
+void fusion(BiblioH* b1, BiblioH* b2){
+   
+}
+
+
+/* test */
+int main() {
+  BiblioH* b = creer_biblio(10);
+  inserer(b, 1, "aa", "ua");
+  inserer(b, 2, "bb", "au");
+  inserer(b, 1, "cc", "au");
+  afficher_biblio(b);
+  supprimer_livre(b, 1, "cc", "au");
+  afficher_biblio(b);
+  // afficher_livre(recherche_livre_par_titre("bb", b));
+  return 0;
 }
