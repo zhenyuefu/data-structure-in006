@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "biblioLC.h"
-#include "entreeSortieLC.h"
+#include "biblioH.h"
+#include "iohash.h"
 
-void usage(char* s) {
+void usage(char *s) {
   printf("Usage:%s <filename> <ligne>\n", s);
   exit(EXIT_FAILURE);
 }
@@ -21,40 +21,44 @@ void menu() {
   puts("press 0 to exit...");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   if (argc != 3) {
     usage(argv[0]);
   }
-  Biblio* b;
-  Biblio* b2;
-  Livre* livre;
-  b = charger_n_entrees(argv[1], atoi(argv[2]));
+
+  BiblioH *b = charger_n_entrees(argv[1], atoi(argv[2]));
   char rep;
   int num;
   char titre[256];
   char auteur[256];
+  BiblioH *b2;
+  LivreH *livre;
   do {
     menu();
     rep = getchar();
     while (getchar() != '\n') continue;
     switch (rep) {
       case '1':
-        puts("Affichage :");
+        printf("\nAffichage:\n");
         afficher_biblio(b);
         break;
-      case '2': {
+
+      case '2':
         printf(
-            "Veuillez ecrire le numero, le titre et l'auteur de l'ouvrage.\n");
-        /* On suppose que le titre et l'auteur ne contiennent pas d'espace*/
+            "\nVeuillez entrer le numero, le titre et l'auteur de "
+            "l'ouvrage.\n");
+
+        /* On suppose que le titre et l’auteur ne contiennent pas d’espace*/
         if (scanf("%d %s %s", &num, titre, auteur) == 3) {
-          inserer_en_tete(b, num, titre, auteur);
+          inserer(b, num, titre, auteur);
           puts("Ajout fait.");
           while (getchar() != '\n') continue;
         } else {
           puts("Erreur format");
           while (getchar() != '\n') continue;
         }
-      } break;
+        break;
+
       case '3':
         printf("\nVeuillez entrer le numero de l'ouvrage.\n");
 
@@ -87,8 +91,7 @@ int main(int argc, char** argv) {
       case '5':
         printf("\nVeuillez entrer le nom de l'auteur.\n");
         if (scanf("%s", auteur) == 1) {
-          if ((b2 = recherche_livres_meme_auteur(auteur, b)) != NULL &&
-              b2->L == NULL)
+          if ((b2 = recherche_livres_meme_auteur(auteur, b))!=NULL&&b2->nE == 0)
             printf("\nAucun ouvrage trouvé de cet auteur\n");
           else
             afficher_biblio(b2);
@@ -119,7 +122,7 @@ int main(int argc, char** argv) {
         break;
 
       case '7':
-        if ((b2 = recherche_exemplaires(b)) != NULL && (b2->L == NULL))
+        if ((b2 = recherche_exemplaires(b)) != NULL && (b2->nE == 0))
           printf("\nAucun exemplaires trouvés\n");
         else
           afficher_biblio(b2);
@@ -127,7 +130,9 @@ int main(int argc, char** argv) {
         break;
     }
   } while (rep != '0');
-  puts("Merci, et au revoir.");
+
   liberer_biblio(b);
+  printf("\nAu revoir !\n");
+
   return 0;
 }
