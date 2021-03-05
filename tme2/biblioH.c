@@ -177,11 +177,21 @@ void supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
   /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez la chaîne */
   curr->suivant = NULL;
   liberer_livre(&curr);
+  b->nE--;
 }
 
-/* to do */
+/* Ajouter les livres en b2 à b1 */
 void fusion(BiblioH* b1, BiblioH* b2){
-   
+  LivreH** lp;
+  LivreH *current;
+  for (int i = 0; i <b2->m;i++) {
+    lp = &b2->T[i];
+    while ((current = *lp) != NULL){
+      inserer(b1, current->num, current->titre, current->auteur);
+      lp = &current->suivant;
+    }
+  }
+  liberer_biblio(b2);
 }
 
 
@@ -191,8 +201,11 @@ int main() {
   inserer(b, 1, "aa", "ua");
   inserer(b, 2, "bb", "au");
   inserer(b, 1, "cc", "au");
-  afficher_biblio(b);
-  supprimer_livre(b, 1, "cc", "au");
+  
+  BiblioH* b2 = creer_biblio(10);
+  inserer(b2,3,"22","222");
+  inserer(b2,4,"23","au");
+  fusion(b, b2);
   afficher_biblio(b);
   // afficher_livre(recherche_livre_par_titre("bb", b));
   return 0;
