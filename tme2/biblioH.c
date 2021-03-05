@@ -220,20 +220,3 @@ BiblioH* recherche_exemplaires(BiblioH* b) {
   }
   return b_new;
 }
-
-/* test */
-int main() {
-  BiblioH* b = creer_biblio(10);
-  inserer(b, 1, "aa", "ua");
-  inserer(b, 2, "bb", "au");
-  inserer(b, 1, "cc", "au");
-
-  inserer(b, 1, "aa", "ua");
-
-  BiblioH* b2 = recherche_exemplaires(b);
-  afficher_biblio(b2);
-  liberer_biblio(b);
-  liberer_biblio(b2);
-  // afficher_livre(recherche_livre_par_titre("bb", b));
-  return 0;
-}
