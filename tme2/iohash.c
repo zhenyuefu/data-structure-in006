@@ -14,7 +14,7 @@ BiblioH* charger_n_entrees(char* nomfic, int n) {
   }
 
   BiblioH* b;
-  if ((b = creer_biblio(HASH_SIZE)) == NULL) {
+  if ((b = creer_biblio(n)) == NULL) {
     puts("Can't creat biblio!");
     return NULL;
   }

@@ -2,7 +2,6 @@
 #define IOHASH_H_
 
 #include "biblioH.h"
-#define HASH_SIZE 10
 
 BiblioH* charger_n_entrees(char* nomfic, int n);
 
