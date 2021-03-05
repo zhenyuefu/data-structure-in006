@@ -147,10 +147,15 @@ LivreH* recherche_livre_par_titre(char* titre, BiblioH* b) {
   return NULL;
 }
 
+/* Une nouvelle biblio est créée et la mémoire doit être libérée */
 BiblioH* recherche_livres_meme_auteur(char* auteur, BiblioH* b) {
   int cle = fonctionClef(auteur);
   int hash = fonctionHachage(cle, b->m);
-  BiblioH* b_new = creer_biblio(b->m);
+  BiblioH* b_new;
+  if ((b_new = creer_biblio(b->m)) == NULL) {
+    puts("Can't create biblio");
+    return NULL;
+  }
   LivreH* l = b->T[hash];
   while (l != NULL) {
     if (strcmp(auteur, l->auteur) == 0) {
@@ -161,7 +166,8 @@ BiblioH* recherche_livres_meme_auteur(char* auteur, BiblioH* b) {
   return b_new;
 }
 
-void supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
+/* Retourne 1 si la suppression est réussie 0 sinon */
+int supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
   int cle = fonctionClef(auteur);
   int hash = fonctionHachage(cle, b->m);
   LivreH* curr;
@@ -172,13 +178,14 @@ void supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
           strcmp(auteur, curr->auteur) != 0)) {
     suivp = &curr->suivant;
   }
-  if (curr == NULL) return;
+  if (curr == NULL) return 0;
   *suivp = curr->suivant;
   /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez
    * la chaîne */
   curr->suivant = NULL;
   liberer_livre(&curr);
   b->nE--;
+  return 1;
 }
 
 /* Ajouter les livres en b2 à b1 */
@@ -195,6 +202,7 @@ void fusion(BiblioH* b1, BiblioH* b2) {
   liberer_biblio(b2);
 }
 
+/* Une nouvelle biblio est créée et la mémoire doit être libérée */
 BiblioH* recherche_exemplaires(BiblioH* b) {
   BiblioH* b_new;
   if ((b_new = creer_biblio(b->m)) == NULL) {
@@ -205,7 +213,7 @@ BiblioH* recherche_exemplaires(BiblioH* b) {
   LivreH* current;
   LivreH* l2;
   for (int i = 0; i < b->m; i++) {
-    lp= &b->T[i];
+    lp = &b->T[i];
     while ((current = *lp) != NULL) {
       l2 = b->T[i];
       while (l2 != NULL) {

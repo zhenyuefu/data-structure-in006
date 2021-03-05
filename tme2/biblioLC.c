@@ -115,7 +115,8 @@ Biblio* recherche_livres_meme_auteur(char* auteur, Biblio* b) {
   return b_new;
 }
 
-void supprimer_livre(Biblio* b, int num, char* titre, char* auteur) {
+/* Retourne 1 si la suppression est réussie 0 sinon */
+int supprimer_livre(Biblio* b, int num, char* titre, char* auteur) {
   Livre* curr;
   /* The pointer points to the address of the "suiv" of the previous node */
   Livre** suivp = &(b->L);
@@ -124,9 +125,10 @@ void supprimer_livre(Biblio* b, int num, char* titre, char* auteur) {
           strcmp(auteur, curr->auteur) != 0)) {
     suivp = &curr->suiv;
   }
-  if (curr == NULL) return;
+  if (curr == NULL) return 0;
   *suivp = curr->suiv;
   liberer_livre(curr);
+  return 1;
 }
 
 void fusion(Biblio* b1, Biblio* b2) {
