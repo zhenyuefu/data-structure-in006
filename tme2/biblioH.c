@@ -174,19 +174,20 @@ void supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
   }
   if (curr == NULL) return;
   *suivp = curr->suivant;
-  /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez la chaîne */
+  /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez
+   * la chaîne */
   curr->suivant = NULL;
   liberer_livre(&curr);
   b->nE--;
 }
 
 /* Ajouter les livres en b2 à b1 */
-void fusion(BiblioH* b1, BiblioH* b2){
+void fusion(BiblioH* b1, BiblioH* b2) {
   LivreH** lp;
-  LivreH *current;
-  for (int i = 0; i <b2->m;i++) {
+  LivreH* current;
+  for (int i = 0; i < b2->m; i++) {
     lp = &b2->T[i];
-    while ((current = *lp) != NULL){
+    while ((current = *lp) != NULL) {
       inserer(b1, current->num, current->titre, current->auteur);
       lp = &current->suivant;
     }
@@ -194,6 +195,31 @@ void fusion(BiblioH* b1, BiblioH* b2){
   liberer_biblio(b2);
 }
 
+BiblioH* recherche_exemplaires(BiblioH* b) {
+  BiblioH* b_new;
+  if ((b_new = creer_biblio(b->m)) == NULL) {
+    puts("Can't create biblio");
+    return NULL;
+  }
+  LivreH** lp;
+  LivreH* current;
+  LivreH* l2;
+  for (int i = 0; i < b->m; i++) {
+    lp= &b->T[i];
+    while ((current = *lp) != NULL) {
+      l2 = b->T[i];
+      while (l2 != NULL) {
+        if (current != l2 && strcmp(l2->titre, current->titre) == 0 &&
+            strcmp(l2->auteur, current->auteur) == 0) {
+          inserer(b_new, l2->num, l2->titre, l2->auteur);
+        }
+        l2 = l2->suivant;
+      }
+      lp = &current->suivant;
+    }
+  }
+  return b_new;
+}
 
 /* test */
 int main() {
@@ -201,12 +227,13 @@ int main() {
   inserer(b, 1, "aa", "ua");
   inserer(b, 2, "bb", "au");
   inserer(b, 1, "cc", "au");
-  
-  BiblioH* b2 = creer_biblio(10);
-  inserer(b2,3,"22","222");
-  inserer(b2,4,"23","au");
-  fusion(b, b2);
-  afficher_biblio(b);
+
+  inserer(b, 1, "aa", "ua");
+
+  BiblioH* b2 = recherche_exemplaires(b);
+  afficher_biblio(b2);
+  liberer_biblio(b);
+  liberer_biblio(b2);
   // afficher_livre(recherche_livre_par_titre("bb", b));
   return 0;
 }
