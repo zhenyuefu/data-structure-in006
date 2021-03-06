@@ -6,7 +6,7 @@ Les deux structures de données ont un temps d'exécution similaire pour la rech
 
 Nous avons volontairement laisser le nombre de donnée inférieur à 0,75 fois la longueur de la table de hachage afin de minimiser les conflits sans gaspiller d'espace.
 
-Conernant les fonctions `recherche_exemplaires` des deux structures, nous obtenons les résultats suivants.
+Concernant les fonctions `recherche_exemplaires` des deux structures, nous obtenons les résultats suivants.
 
 ![time](time.svg)
 
