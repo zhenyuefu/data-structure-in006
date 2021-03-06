@@ -2,13 +2,9 @@
 
 
 
-Les deux structures de données prennent un temps similaire pour la recherche basée sur le `num` et la recherche basée sur le `titre`.
+Les deux structures de données ont un temps d'exécution similaire pour la recherche basée sur le `num` et sur le `titre` car la table de hachage est indexée par le nom de l'auteur.
 
-Parce que la table de hachage est indexée par le nom de l'auteur.
-
-Nous laissons le nombre de données être inférieur à 0,75 fois la longueur de la table de hachage.
-
-Minimiser les conflits mais ne pas gaspiller l'espace.
+Nous avons volontairement laisser le nombre de donnée inférieur à 0,75 fois la longueur de la table de hachage afin de minimiser les conflits sans gaspiller d'espace.
 
 En fonctions  `recherche_exemplaires`, nous obtenons les résultats indiqués ci-dessous.
 
