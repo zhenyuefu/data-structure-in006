@@ -12,4 +12,4 @@ Concernant les fonctions `recherche_exemplaires` des deux structures, nous obten
 
 On s'aperçoit donc qu'à un certain seuil n (n = 5000), les listes chaînées ne deviennent pas une bonne solution pour effectuer des recherches et deviennent donc très conséquentes en temps de calcul.
 
-On en déduit que la table de hachage est beaucoup plus performante et permet donc un accès plus rapide, le temps d'accès dans le pire des cas peut être de O(n). 
+On en déduit que la table de hachage est beaucoup plus performante et permet donc un accès plus rapide, le temps d'accès dans le pire des cas est de O(n). 
