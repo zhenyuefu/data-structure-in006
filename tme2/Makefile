@@ -8,12 +8,11 @@ biblio : $(objects)
 	$(CC) -o $@ $(CFLAGS) $(objects)
 biblio_hash : $(objects2)
 	$(CC) -o $@ $(CFLAGS) $(objects2)
-test_time : $(objects) $(objects2)
+test_time : $(objectsTime)
 	$(CC) -o $@ $(CFLAGS) $(objectsTime)
 main.o : entreeSortieLC.h biblioLC.h
 main_hash.o:iohash.h biblioH.h
-test_time.o:
-	$(CC) -c test_time.c
+test_time.o:test_time.c
 entreeSortieLC.o : entreeSortieLC.h biblioLC.h
 biblioLC.o : biblioLC.h
 biblioH.o : biblioH.h

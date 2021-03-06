@@ -7,7 +7,7 @@
 
 int getHashSize(int n) {
   for (int i = 0; i < PRIMESIZE; i++) {
-    if (n > PrimeList[i] * 0.75) return PrimeList[i];
+    if (n < PrimeList[i] * 0.75) return PrimeList[i];
   }
   return PrimeList[PRIMESIZE - 1];
 }
