@@ -10,4 +10,4 @@ Conernant les fonctions `recherche_exemplaires` des deux structures, nous obteno
 
 ![time](time.svg)
 
-On en déduit donc que la méthode de table de hachage est beaucoup plus performante, le temps d'accès dans le pire des cas peut être de O(n). 
+On en déduit donc que la table de hachage est beaucoup plus performante, le temps d'accès dans le pire des cas peut être de O(n). 
