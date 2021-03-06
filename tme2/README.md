@@ -6,7 +6,7 @@ Les deux structures de données prennent un temps similaire pour la recherche ba
 
 Parce que la table de hachage est indexée par le nom de l'auteur.
 
-Nous laissons la taille de la table de hachage être plus de 0,8 fois le nombre de données.
+Nous laissons le nombre de données être inférieur à 0,75 fois la longueur de la table de hachage.
 
 Minimiser les conflits mais ne pas gaspiller l'espace.
 
