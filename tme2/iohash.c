@@ -5,7 +5,14 @@
 
 #include "biblioH.h"
 
-BiblioH* charger_n_entrees(char* nomfic, int n) {
+int getHashSize(int n) {
+  for (int i = 0; i < PRIMESIZE; i++) {
+    if (n * 0.8 > PrimeList[i]) return PrimeList[i];
+  }
+  return PrimeList[PRIMESIZE - 1];
+}
+
+BiblioH* charger_n_entrees_hash(char* nomfic, int n) {
   FILE* fp;
 
   if ((fp = fopen(nomfic, "r")) == NULL) {
@@ -13,8 +20,10 @@ BiblioH* charger_n_entrees(char* nomfic, int n) {
     exit(EXIT_FAILURE);
   }
 
+  int hash_size = getHashSize(n);
+
   BiblioH* b;
-  if ((b = creer_biblio(n)) == NULL) {
+  if ((b = creer_biblioH(hash_size)) == NULL) {
     puts("Can't creat biblio!");
     return NULL;
   }
@@ -39,7 +48,7 @@ BiblioH* charger_n_entrees(char* nomfic, int n) {
   return b;
 }
 
-void enregistrer_biblio(BiblioH* b, char* nomfic) {
+void enregistrer_biblioH(BiblioH* b, char* nomfic) {
   FILE* fp;
 
   if ((fp = fopen(nomfic, "w")) == NULL) {

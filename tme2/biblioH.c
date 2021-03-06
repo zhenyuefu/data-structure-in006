@@ -13,7 +13,7 @@ int fonctionClef(char* auteur) {
   return somme;
 }
 
-LivreH* creer_livre(int num, char* titre, char* auteur) {
+LivreH* creer_livreH(int num, char* titre, char* auteur) {
   LivreH* lh = (LivreH*)malloc(sizeof(LivreH));
   if (lh == NULL) return NULL;
   lh->titre = (char*)malloc(strlen(titre) + 1);
@@ -35,7 +35,7 @@ LivreH* creer_livre(int num, char* titre, char* auteur) {
   return lh;
 }
 
-BiblioH* creer_biblio(int m) {
+BiblioH* creer_biblioH(int m) {
   BiblioH* b = malloc(sizeof(BiblioH));
 
   if (b == NULL) return NULL;
@@ -51,16 +51,16 @@ BiblioH* creer_biblio(int m) {
   return b;
 }
 
-void liberer_biblio(BiblioH* b) {
+void liberer_biblioH(BiblioH* b) {
   LivreH** tab = b->T;
 
-  for (int i = 0; i < (b->m); i++) liberer_livre(&tab[i]);
+  for (int i = 0; i < (b->m); i++) liberer_livreH(&tab[i]);
   free(b->T);
   free(b);
 }
 
 /* Cette fonction permettra de libérer tous les livres sur la liste chainee */
-void liberer_livre(LivreH** lh) {
+void liberer_livreH(LivreH** lh) {
   LivreH* curr = *lh;
 
   while ((curr = *lh) != NULL) {
@@ -76,7 +76,7 @@ int fonctionHachage(int cle, int m) {
 }
 
 void inserer(BiblioH* b, int num, char* titre, char* auteur) {
-  LivreH* l = creer_livre(num, titre, auteur);
+  LivreH* l = creer_livreH(num, titre, auteur);
   if (l == NULL) {
     puts("error:creer_livre");
     return;
@@ -87,7 +87,7 @@ void inserer(BiblioH* b, int num, char* titre, char* auteur) {
   b->nE++;
 }
 
-void afficher_livre(LivreH* l) {
+void afficher_un_livre(LivreH* l) {
   if (l == NULL) {
     return;
   }
@@ -100,12 +100,12 @@ void afficher_livreH(LivreH* l) {
     return;
   }
   while (l) {
-    afficher_livre(l);
+    afficher_un_livre(l);
     l = l->suivant;
   }
 }
 
-void afficher_biblio(BiblioH* b) {
+void afficher_biblioH(BiblioH* b) {
   if (b == NULL) {
     puts("error: biblio is NULL!");
     return;
@@ -123,7 +123,7 @@ void afficher_biblio(BiblioH* b) {
   }
 }
 
-LivreH* recherche_livre_par_num(int num, BiblioH* b) {
+LivreH* hash_recherche_par_num(int num, BiblioH* b) {
   LivreH* l;
   for (int i = 0; i < b->m; i++) {
     l = b->T[i];
@@ -135,7 +135,7 @@ LivreH* recherche_livre_par_num(int num, BiblioH* b) {
   return NULL;
 }
 
-LivreH* recherche_livre_par_titre(char* titre, BiblioH* b) {
+LivreH* hash_recherche_par_titre(char* titre, BiblioH* b) {
   LivreH* l;
   for (int i = 0; i < b->m; i++) {
     l = b->T[i];
@@ -148,11 +148,11 @@ LivreH* recherche_livre_par_titre(char* titre, BiblioH* b) {
 }
 
 /* Une nouvelle biblio est créée et la mémoire doit être libérée */
-BiblioH* recherche_livres_meme_auteur(char* auteur, BiblioH* b) {
+BiblioH* hash_recherche_meme_auteur(char* auteur, BiblioH* b) {
   int cle = fonctionClef(auteur);
   int hash = fonctionHachage(cle, b->m);
   BiblioH* b_new;
-  if ((b_new = creer_biblio(b->m)) == NULL) {
+  if ((b_new = creer_biblioH(b->m)) == NULL) {
     puts("Can't create biblio");
     return NULL;
   }
@@ -167,7 +167,7 @@ BiblioH* recherche_livres_meme_auteur(char* auteur, BiblioH* b) {
 }
 
 /* Retourne 1 si la suppression est réussie 0 sinon */
-int supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
+int supprimer_livreH(BiblioH* b, int num, char* titre, char* auteur) {
   int cle = fonctionClef(auteur);
   int hash = fonctionHachage(cle, b->m);
   LivreH* curr;
@@ -183,13 +183,13 @@ int supprimer_livre(BiblioH* b, int num, char* titre, char* auteur) {
   /* Pour que le livre qui se trouve derrière ce nœud ne soit pas libéré, coupez
    * la chaîne */
   curr->suivant = NULL;
-  liberer_livre(&curr);
+  liberer_livreH(&curr);
   b->nE--;
   return 1;
 }
 
 /* Ajouter les livres en b2 à b1 */
-void fusion(BiblioH* b1, BiblioH* b2) {
+void fusion_hash(BiblioH* b1, BiblioH* b2) {
   LivreH** lp;
   LivreH* current;
   for (int i = 0; i < b2->m; i++) {
@@ -199,13 +199,13 @@ void fusion(BiblioH* b1, BiblioH* b2) {
       lp = &current->suivant;
     }
   }
-  liberer_biblio(b2);
+  liberer_biblioH(b2);
 }
 
 /* Une nouvelle biblio est créée et la mémoire doit être libérée */
-BiblioH* recherche_exemplaires(BiblioH* b) {
+BiblioH* recherche_exemplaires_hash(BiblioH* b) {
   BiblioH* b_new;
-  if ((b_new = creer_biblio(b->m)) == NULL) {
+  if ((b_new = creer_biblioH(b->m)) == NULL) {
     puts("Can't create biblio");
     return NULL;
   }

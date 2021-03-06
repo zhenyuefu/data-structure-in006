@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     usage(argv[0]);
   }
 
-  BiblioH *b = charger_n_entrees(argv[1], atoi(argv[2]));
+  BiblioH *b = charger_n_entrees_hash(argv[1], atoi(argv[2]));
   char rep;
   int num;
   char titre[256];
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     switch (rep) {
       case '1':
         printf("\nAffichage:\n");
-        afficher_biblio(b);
+        afficher_biblioH(b);
         break;
 
       case '2':
@@ -63,10 +63,10 @@ int main(int argc, char **argv) {
         printf("\nVeuillez entrer le numero de l'ouvrage.\n");
 
         if (scanf("%d", &num) == 1) {
-          if ((livre = recherche_livre_par_num(num, b)) == NULL)
+          if ((livre = hash_recherche_par_num(num, b)) == NULL)
             printf("\nOuvrage non trouvé\n");
           else
-            afficher_livre(livre);
+            afficher_un_livre(livre);
           while (getchar() != '\n') continue;
         } else {
           printf("\nErreur format\n");
@@ -77,10 +77,10 @@ int main(int argc, char **argv) {
       case '4':
         printf("\nVeuillez enntrer le titre de l'ouvrage.\n");
         if (scanf("%s", titre) == 1) {
-          if ((livre = recherche_livre_par_titre(titre, b)) == NULL)
+          if ((livre = hash_recherche_par_titre(titre, b)) == NULL)
             printf("\nOuvrage non trouvé\n");
           else
-            afficher_livre(livre);
+            afficher_un_livre(livre);
           while (getchar() != '\n') continue;
         } else {
           printf("\nErreur format\n");
@@ -91,12 +91,12 @@ int main(int argc, char **argv) {
       case '5':
         printf("\nVeuillez entrer le nom de l'auteur.\n");
         if (scanf("%s", auteur) == 1) {
-          if ((b2 = recherche_livres_meme_auteur(auteur, b))!=NULL&&b2->nE == 0)
+          if ((b2 = hash_recherche_meme_auteur(auteur, b))!=NULL&&b2->nE == 0)
             printf("\nAucun ouvrage trouvé de cet auteur\n");
           else
-            afficher_biblio(b2);
+            afficher_biblioH(b2);
           while (getchar() != '\n') continue;
-          liberer_biblio(b2);
+          liberer_biblioH(b2);
         } else {
           printf("\nErreur format\n");
           while (getchar() != '\n') continue;
@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
         /* On suppose que le titre et l’auteur ne contiennent pas d’espace*/
 
         if (scanf("%d %s %s", &num, titre, auteur) == 3) {
-          if (supprimer_livre(b, num, titre, auteur))
+          if (supprimer_livreH(b, num, titre, auteur))
             printf("\nsuppression fait.\n");
           else
             printf("\nAucun livre trouvé à supprimer\n");
@@ -122,16 +122,16 @@ int main(int argc, char **argv) {
         break;
 
       case '7':
-        if ((b2 = recherche_exemplaires(b)) != NULL && (b2->nE == 0))
+        if ((b2 = recherche_exemplaires_hash(b)) != NULL && (b2->nE == 0))
           printf("\nAucun exemplaires trouvés\n");
         else
-          afficher_biblio(b2);
-        liberer_biblio(b2);
+          afficher_biblioH(b2);
+        liberer_biblioH(b2);
         break;
     }
   } while (rep != '0');
 
-  liberer_biblio(b);
+  liberer_biblioH(b);
   printf("\nAu revoir !\n");
 
   return 0;
