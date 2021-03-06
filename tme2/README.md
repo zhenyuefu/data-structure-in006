@@ -6,7 +6,8 @@ Les deux structures de données ont un temps d'exécution similaire pour la rech
 
 Nous avons volontairement laisser le nombre de donnée inférieur à 0,75 fois la longueur de la table de hachage afin de minimiser les conflits sans gaspiller d'espace.
 
-En fonctions  `recherche_exemplaires`, nous obtenons les résultats indiqués ci-dessous.
+Conernant les fonctions `recherche_exemplaires` des deux structure, nous obtenons les résultats suivant.
 
 ![time](time.svg)
 
+On en déduit donc que la méthode de table de hachage est beaucoup plus performante, le temps d'accès dans le pire des cas peut être de O(n). 
