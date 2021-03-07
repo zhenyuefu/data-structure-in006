@@ -5,6 +5,8 @@
 
 #include "biblioLC.h"
 
+/* retourne une bibliothèque d'ouvrages lue dans un fichier 'nomfic' et de taille n passés en paramètre */
+
 Biblio* charger_n_entrees(char* nomfic, int n) {
   FILE* fp;
 
@@ -38,6 +40,8 @@ Biblio* charger_n_entrees(char* nomfic, int n) {
 
   return b;
 }
+
+/* stock une bibliothèque passé en paramètre dans un fichier 'nomfic' */
 
 void enregistrer_biblio(Biblio* b, char* nomfic) {
   FILE* fp;
