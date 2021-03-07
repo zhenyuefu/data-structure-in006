@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* retourne un entier (clef) à partir du nom de l'auteur */
+
 int fonctionClef(char* auteur) {
   int somme = 0;
 
@@ -12,6 +14,8 @@ int fonctionClef(char* auteur) {
   }
   return somme;
 }
+
+/* création d'un livre dont les données sont passées en paramètre */
 
 LivreH* creer_livreH(int num, char* titre, char* auteur) {
   LivreH* lh = (LivreH*)malloc(sizeof(LivreH));
@@ -35,6 +39,8 @@ LivreH* creer_livreH(int num, char* titre, char* auteur) {
   return lh;
 }
 
+/* crée une bibliothèque dont la taille est passée en paramètre */
+
 BiblioH* creer_biblioH(int m) {
   BiblioH* b = malloc(sizeof(BiblioH));
 
@@ -51,6 +57,8 @@ BiblioH* creer_biblioH(int m) {
   return b;
 }
 
+/* libère le contenu de la bibliothèque passée en paramètre */
+
 void liberer_biblioH(BiblioH* b) {
   LivreH** tab = b->T;
 
@@ -60,6 +68,7 @@ void liberer_biblioH(BiblioH* b) {
 }
 
 /* Cette fonction permettra de libérer tous les livres sur la liste chainee */
+
 void liberer_livreH(LivreH** lh) {
   LivreH* curr = *lh;
 
@@ -71,9 +80,13 @@ void liberer_livreH(LivreH** lh) {
   }
 }
 
+/* retourne un entier (index de la clé calculée à partir de la clé et de la taille) pour la table de hachage */
+
 int fonctionHachage(int cle, int m) {
   return (int)(m * ((double)cle * GOLDEN - (int)(cle * GOLDEN)));
 }
+
+/* insère un livre (dont les données ont été passé en paramètre) dans la bibliothèque */
 
 void inserer(BiblioH* b, int num, char* titre, char* auteur) {
   LivreH* l = creer_livreH(num, titre, auteur);
@@ -87,6 +100,8 @@ void inserer(BiblioH* b, int num, char* titre, char* auteur) {
   b->nE++;
 }
 
+/* affiche les données du livre passé en paramètre */
+
 void afficher_un_livre(LivreH* l) {
   if (l == NULL) {
     return;
@@ -94,6 +109,8 @@ void afficher_un_livre(LivreH* l) {
 
   printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
 }
+
+/* affiche les données d'une liste chainée de livre passée en paramètre */
 
 void afficher_livreH(LivreH* l) {
   if (l == NULL) {
@@ -104,6 +121,8 @@ void afficher_livreH(LivreH* l) {
     l = l->suivant;
   }
 }
+
+/* affiche le contenu de la bibliotèque passée en paramètre */
 
 void afficher_biblioH(BiblioH* b) {
   if (b == NULL) {
@@ -123,6 +142,8 @@ void afficher_biblioH(BiblioH* b) {
   }
 }
 
+/* recherche et retourne le livre portant le numéro 'num' */
+
 LivreH* hash_recherche_par_num(int num, BiblioH* b) {
   LivreH* l;
   for (int i = 0; i < b->m; i++) {
@@ -135,6 +156,8 @@ LivreH* hash_recherche_par_num(int num, BiblioH* b) {
   return NULL;
 }
 
+/* recherche et retourne le livre portant le titre 'titre' */
+
 LivreH* hash_recherche_par_titre(char* titre, BiblioH* b) {
   LivreH* l;
   for (int i = 0; i < b->m; i++) {
@@ -146,6 +169,8 @@ LivreH* hash_recherche_par_titre(char* titre, BiblioH* b) {
   }
   return NULL;
 }
+
+/* recherche et retourne une bibliothèque de tout les livres de l'auteur 'auteur' */
 
 /* Une nouvelle biblio est créée et la mémoire doit être libérée */
 BiblioH* hash_recherche_meme_auteur(char* auteur, BiblioH* b) {
@@ -167,6 +192,7 @@ BiblioH* hash_recherche_meme_auteur(char* auteur, BiblioH* b) {
 }
 
 /* Retourne 1 si la suppression est réussie 0 sinon */
+
 int supprimer_livreH(BiblioH* b, int num, char* titre, char* auteur) {
   int cle = fonctionClef(auteur);
   int hash = fonctionHachage(cle, b->m);
@@ -201,6 +227,8 @@ void fusion_hash(BiblioH* b1, BiblioH* b2) {
   }
   liberer_biblioH(b2);
 }
+
+/* recherche et retourne une bibliothèque dans laquelle on y retrouve plusieurs exemplaires d'ouvrages (même titre et même auteur) */
 
 /* Une nouvelle biblio est créée et la mémoire doit être libérée */
 BiblioH* recherche_exemplaires_hash(BiblioH* b) {
