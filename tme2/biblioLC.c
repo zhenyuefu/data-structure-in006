@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* création d'un livre dont les données sont passées en paramètre */
+
 Livre* creer_livre(int num, char* titre, char* auteur) {
   Livre* livre = (Livre*)malloc(sizeof(Livre));
   if (livre == NULL) return NULL;
@@ -25,11 +27,15 @@ Livre* creer_livre(int num, char* titre, char* auteur) {
   return livre;
 }
 
+/* libère le contenu du livre passé en paramètre */
+
 void liberer_livre(Livre* l) {
   free(l->auteur);
   free(l->titre);
   free(l);
 }
+
+/* crée une bibliothèque */
 
 Biblio* creer_biblio() {
   Biblio* biblio = (Biblio*)malloc(sizeof(Biblio));
@@ -37,6 +43,8 @@ Biblio* creer_biblio() {
   biblio->L = NULL;
   return biblio;
 }
+
+/* libère le contenu de la bibliothèque passée en paramètre */
 
 void liberer_biblio(Biblio* b) {
   Livre* l = b->L;
@@ -48,12 +56,16 @@ void liberer_biblio(Biblio* b) {
   free(b);
 }
 
+/* insère un livre (dont les données ont été passé en paramètre) dans la bibliothèque */
+
 void inserer_en_tete(Biblio* b, int num, char* titre, char* auteur) {
   Livre* l = creer_livre(num, titre, auteur);
   if (l == NULL) return;
   l->suiv = b->L;
   b->L = l;
 }
+
+/* affiche les données du livre passé en paramètre */
 
 void afficher_livre(Livre* l) {
   if (l == NULL) {
@@ -62,6 +74,8 @@ void afficher_livre(Livre* l) {
   }
   printf("Num:%-5d Titre:%-27s Auteur:%-27s\n", l->num, l->titre, l->auteur);
 }
+
+/* affiche le contenu de la bibliotèque passée en paramètre */
 
 void afficher_biblio(Biblio* b) {
   if (b == NULL) {
@@ -79,6 +93,8 @@ void afficher_biblio(Biblio* b) {
   }
 }
 
+/* recherche et retourne le livre portant le numéro 'num' */
+
 Livre* recherche_livre_par_num(int num, Biblio* b) {
   Livre* l = b->L;
   while (l != NULL && l->num != num) {
@@ -89,6 +105,8 @@ Livre* recherche_livre_par_num(int num, Biblio* b) {
   return NULL;
 }
 
+/* recherche et retourne le livre portant le titre 'titre' */
+
 Livre* recherche_livre_par_titre(char* titre, Biblio* b) {
   Livre* l = b->L;
   while (l != NULL && strcmp(titre, l->titre) != 0) {
@@ -98,6 +116,8 @@ Livre* recherche_livre_par_titre(char* titre, Biblio* b) {
   if (strcmp(titre, l->titre) == 0) return l;
   return NULL;
 }
+
+/* recherche et retourne une bibliothèque de tout les livres de l'auteur 'auteur' */
 
 Biblio* recherche_livres_meme_auteur(char* auteur, Biblio* b) {
   Biblio* b_new;
@@ -131,6 +151,8 @@ int supprimer_livre(Biblio* b, int num, char* titre, char* auteur) {
   return 1;
 }
 
+/* ajoute la deuxième bibliothèque à la première */
+
 void fusion(Biblio* b1, Biblio* b2) {
   Livre** lp = &b2->L;
   Livre* curr;
@@ -142,6 +164,8 @@ void fusion(Biblio* b1, Biblio* b2) {
   b2->L = NULL;
   liberer_biblio(b2);
 }
+
+/* recherche et retourne une bibliothèque dans laquelle on y retrouve plusieurs exemplaires d'ouvrages (même titre et même auteur) */
 
 Biblio* recherche_exemplaires(Biblio* b) {
   Biblio* b_new;
