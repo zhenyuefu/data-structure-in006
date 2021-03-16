@@ -9,7 +9,6 @@ Chaines* lectureChaines(FILE* f) {
   Chaines* chaine = malloc(sizeof(Chaines));
   char ligne[256];
   int nbChaines, gamma;
-  char _[256];
   /* première ligne */
   if (fgets(ligne, sizeof(ligne), f) != NULL)
     sscanf(ligne, "%*s %d", &nbChaines);
