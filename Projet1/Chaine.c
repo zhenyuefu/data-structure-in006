@@ -125,3 +125,12 @@ double longueurTotale(Chaines* C) {
 
   return somme;
 }
+
+int comptePointsTotal(Chaines* C) {
+  int n = 0;
+
+  for (CellChaine* chaine = C->chaines; chaine; chaine = chaine->suiv)
+    for (CellPoint* point = chaine->points; point; point = point->suiv) n++;
+
+  return n;
+}
