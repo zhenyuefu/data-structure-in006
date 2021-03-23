@@ -13,6 +13,8 @@ int main(void) {
   Reseau *R = reconstitueReseauListe(C);
   afficheReseauSVG(R, "test");
 
-  printf("%d\n%d\n", nbLiaisons(R), nbCommodites(R));
+  f = fopen("14.res","w");
+  ecrireReseau(R,  f) ;
+  fclose(f);
   return 0;
 }
