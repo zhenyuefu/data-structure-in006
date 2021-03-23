@@ -50,6 +50,11 @@ Reseau *reconstitueReseauListe(Chaines *C) {
 
 void ajoute_voisins(Noeud *node1, Noeud *node2) {
   CellNoeud *list_node1 = malloc(sizeof(CellNoeud));
+  CellNoeud *voisins = node1->voisins;
+  while(voisins != NULL){
+    if (voisins->nd == node2) return;
+    voisins = voisins->suiv;
+  }
   list_node1->nd = node2;
   list_node1->suiv = node1->voisins;
   CellNoeud *list_node2 = malloc(sizeof(CellNoeud));
