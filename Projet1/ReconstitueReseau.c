@@ -13,5 +13,6 @@ int main(void) {
   Reseau *R = reconstitueReseauListe(C);
   afficheReseauSVG(R, "test");
 
+  printf("%d\n%d\n", nbLiaisons(R), nbCommodites(R));
   return 0;
 }

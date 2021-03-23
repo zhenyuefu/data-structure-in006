@@ -28,20 +28,21 @@ Reseau *reconstitueReseauListe(Chaines *C) {
   R->gamma = C->gamma;
   R->noeuds = NULL;
   R->commodites = NULL;
-  Noeud *node, *node_pre;
+  Noeud *node, *node_pre,*node_first;
   CellChaine *list_chaine = C->chaines;
   while (list_chaine != NULL) {
     CellPoint *list_point = list_chaine->points;
     node_pre = NULL;
+    node_first = rechercheCreeNoeudListe(R,list_point->x,list_point->y);
     while (list_point != NULL) {
       node = rechercheCreeNoeudListe(R, list_point->x, list_point->y);
       if (node_pre != NULL) {
         ajoute_voisins(node_pre, node);
-        ajoute_commodites(R, node_pre, node);
       }
       node_pre = node;
       list_point = list_point->suiv;
     }
+    ajoute_commodites(R, node_first, node);
     list_chaine = list_chaine->suiv;
   }
   return R;
@@ -96,4 +97,35 @@ void afficheReseauSVG(Reseau *R, char *nomInstance) {
     courN = courN->suiv;
   }
   SVGfinalize(&svg);
+}
+
+int nbLiaisons(Reseau *R){
+  int nb = 0;
+  CellNoeud *list_node = R->noeuds;
+  while (list_node != NULL) {
+    Noeud *node = list_node->nd;
+    nb += countNodes(node->voisins);
+    list_node = list_node->suiv;
+  }
+  nb /= 2;
+  return nb;
+}
+
+int countNodes(CellNoeud *list_node){
+  int nb = 0;
+  while(list_node != NULL){
+    nb++;
+    list_node = list_node->suiv;
+  }
+  return nb;
+}
+
+int nbCommodites(Reseau *R){
+  CellCommodite *list_commodite = R->commodites;
+  int nb = 0;
+  while (list_commodite != NULL) {
+    nb++;
+    list_commodite = list_commodite->suiv;
+  }
+  return nb;
 }
