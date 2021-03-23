@@ -4,6 +4,7 @@
 
 typedef struct noeud Noeud;
 
+#include "Hachage.h"
 /* Liste chainee de noeuds (pour la liste des noeuds du reseau ET les listes des
  * voisins de chaque noeud) */
 typedef struct cellnoeud {
@@ -30,10 +31,14 @@ typedef struct {
   int gamma;                 /* Nombre maximal de fibres par cable */
   CellNoeud *noeuds;         /* Liste des noeuds du reseau */
   CellCommodite *commodites; /* Liste des commodites a relier */
+  TableHachage *H;
 } Reseau;
 
 Noeud *rechercheCreeNoeudListe(Reseau *R, double x, double y);
+Noeud *rechercheCreeNoeudHachage(Reseau *R, TableHachage *H, double x,
+                                 double y);
 Reseau *reconstitueReseauListe(Chaines *C);
+Reseau *reconstitueReseauHash(Chaines *C, int size);
 void ecrireReseau(Reseau *R, FILE *f);
 int nbLiaisons(Reseau *R);
 int nbCommodites(Reseau *R);
