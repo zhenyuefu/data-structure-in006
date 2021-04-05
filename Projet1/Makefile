@@ -1,10 +1,13 @@
 CFLAGS = -Wall -Wextra -pedantic -lm
-objects = ReconstitueHash.o Reseau.o SVGwriter.o Chaine.o Hachage.o
+objects = ReconstitueArbre.o Reseau.o SVGwriter.o Chaine.o ArbreQuat.o Hachage.o
 
-ReconstitueHash: $(objects)
+ReconstitueArbre: $(objects)
 	$(CC) -o $@ $(CFLAGS) $(objects)
-Hachage.o: Hachage.c 
+ArbreQuat.o: ArbreQuat.c
 Reseau.o: Reseau.c
+Hachage.o : Hachage.c
 .PHONY : clean
 clean :
-	-rm ReconstitueHash $(objects)
+	-rm ReconstitueArbre $(objects)
+	-rm 14.res
+	-rm test.html
