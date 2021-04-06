@@ -1,12 +1,12 @@
 #ifndef __HACHAGE_H__
 #define __HACHAGE_H__
+#include "Reseau.h"
 
 #define GOLDEN 0.618
 
-typedef struct tableHachage TableHachage; 
+typedef struct tableHachage TableHachage;
 typedef struct nodeHachage NodeHachage;
 
-#include "Reseau.h"
 struct nodeHachage {
   Noeud *node;
   NodeHachage *suiv;
@@ -20,5 +20,8 @@ struct tableHachage {
 
 int functionClef(int x, int y);
 int functionHachage(int cle, int size);
+Reseau *reconstitueReseauHash(Chaines *C, int size);
+Noeud *rechercheCreeNoeudHachage(Reseau *R, TableHachage *H, double x,
+                                 double y);
 
 #endif

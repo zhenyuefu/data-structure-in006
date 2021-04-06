@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Chaine.h"
 #include "Reseau.h"
 
 int main(void) {
@@ -13,8 +12,8 @@ int main(void) {
   Reseau *R = reconstitueReseauListe(C);
   afficheReseauSVG(R, "test");
 
-  f = fopen("14.res","w");
-  ecrireReseau(R,  f) ;
+  f = fopen("14.res", "w");
+  ecrireReseau(R, f);
   fclose(f);
   return 0;
 }

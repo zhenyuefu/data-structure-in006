@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Chaine.h"
 #include "Hachage.h"
-#include "Reseau.h"
 
 int main(void) {
   FILE *f;
@@ -11,11 +9,11 @@ int main(void) {
   Chaines *C = lectureChaines(f);
   fclose(f);
 
-  Reseau *R = reconstitueReseauHash(C,57);
+  Reseau *R = reconstitueReseauHash(C, 57);
   afficheReseauSVG(R, "test");
 
-  f = fopen("14.res","w");
-  ecrireReseau(R,  f) ;
+  f = fopen("14.res", "w");
+  ecrireReseau(R, f);
   fclose(f);
   return 0;
 }
