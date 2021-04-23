@@ -1,3 +1,4 @@
+CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -lm
 objects = Reseau.o SVGwriter.o Chaine.o ArbreQuat.o Hachage.o
 objectsReseau = ReconstitueReseau.o
@@ -7,15 +8,17 @@ objectslist = $(objects) $(objectsReseau) $(objectsHash) $(objectsArbre)
 all = ReconstitueReseau ReconstitueHash ReconstitueArbre
 
 prog: $(all) 
-ReconstitueReseau: 
+ReconstitueReseau: $(objects) $(objectsReseau)
 	$(CC) -o $@ $(CFLAGS) $(objects) $(objectsReseau)
-ReconstitueHash: $(objects)
+ReconstitueHash: $(objects) $(objectsHash)
 	$(CC) -o $@ $(CFLAGS) $(objects) $(objectsHash)
-ReconstitueArbre: $(objects)
+ReconstitueArbre: $(objects) $(objectsArbre)
 	$(CC) -o $@ $(CFLAGS) $(objects) $(objectsArbre)
-ArbreQuat.o: ArbreQuat.c
-Reseau.o: Reseau.c
-Hachage.o : Hachage.c
+SVGwriter.o : SVGwriter.h
+Chaine.o : Chaine.h SVGwriter.h
+Reseau.o: Reseau.h Chaine.h
+Hachage.o : Hachage.h Reseau.h
+ArbreQuat.o: ArbreQuat.h Reseau.h
 .PHONY : clean
 clean :
 	-rm $(all) $(objectslist)
