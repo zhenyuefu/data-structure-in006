@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -lm
-objects = Reseau.o SVGwriter.o Chaine.o ArbreQuat.o Hachage.o
+CFLAGS = -g -Wall -Wextra -pedantic -lm
+objects = Reseau.o SVGwriter.o Chaine.o ArbreQuat.o Hachage.o Graphe.o
 objectsReseau = ReconstitueReseau.o
 objectsHash = ReconstitueHash.o
 objectsArbre = ReconstitueArbre.o

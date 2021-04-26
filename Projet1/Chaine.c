@@ -132,3 +132,24 @@ int comptePointsTotal(Chaines* C) {
 
   return n;
 }
+
+/* Libere l'ensemble des points de la liste chainee cPoints */
+void libererPoints(CellPoint* cPoints) {
+  while (cPoints) {
+    CellPoint* tmp = cPoints->suiv;
+    free(cPoints);
+    cPoints = tmp;
+  }
+}
+
+/* Libere integralement la memoire occupee par la structure C */
+void libererChaines(Chaines* C) {
+  CellChaine* chaine = C->chaines;
+  while (chaine) {
+    CellChaine* tmp = chaine->suiv;
+    libererPoints(chaine->points);
+    free(chaine);
+    chaine = tmp;
+  }
+  free(C);
+}

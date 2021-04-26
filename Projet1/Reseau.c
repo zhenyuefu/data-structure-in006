@@ -164,3 +164,26 @@ void ecrireReseau(Reseau *R, FILE *f) {
     fprintf(f, "k %d %d\n", cell_com->extrA->num, cell_com->extrB->num);
 }
 
+void liberer_noeud(CellNoeud *n) {
+  while (n) {
+    CellNoeud *tmp = n->suiv;
+    free(n->nd);
+    free(n);
+    n = tmp;
+  }
+}
+
+void liberer_commodite(CellCommodite *c) {
+  while (c) {
+    CellCommodite *tmp = c->suiv;
+    free(c);
+    c = tmp;
+  }
+}
+
+/* Libere integralement la memoire occupee par le reseau R */
+void libererReseau(Reseau *R) {
+  liberer_noeud(R->noeuds);
+  liberer_commodite(R->commodites);
+  free(R);
+}
