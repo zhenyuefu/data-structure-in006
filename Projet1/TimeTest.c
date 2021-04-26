@@ -15,7 +15,7 @@ Chaines* generationAleatoire(int nbChaines, int nbPointsChaine, int xmax,
   chaine->nbChaines = nbChaines;
   chaine->gamma = nbPointsChaine;
   CellChaine* L_cell = NULL;
-  for (int i = 0; i < nbPointsChaine; i++) {
+  for (int i = 0; i < nbChaines; i++) {
     CellChaine* cell_chaine = malloc(sizeof(CellChaine));
     cell_chaine->numero = i;
     CellPoint* L_point = NULL;
