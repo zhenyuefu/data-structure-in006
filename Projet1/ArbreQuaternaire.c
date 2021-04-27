@@ -10,6 +10,7 @@ void chaineCoordMinMax(Chaines* C, double* xmin, double* ymin, double* xmax,
     *xmax = chaine->points->y;
   } else {
     puts("Error: Chaines have no points");
+    return;
   }
   while (chaine != NULL) {
     CellPoint* p = chaine->points;
@@ -204,16 +205,16 @@ Reseau* reconstitueReseauArbre(Chaines* C) {
     ajoute_commodites(R, node_first, node);
     list_chaine = list_chaine->suiv;
   }
+  libererArbre(root);
   return R;
 }
 
-void liberer_arbre(ArbreQuat* A){
-  if (A){
-    liberer_arbre(A->so);
-    liberer_arbre(A->se);
-    liberer_arbre(A->no);
-    liberer_arbre(A->ne);
-    free(A->noeud);
+void libererArbre(ArbreQuat* A) {
+  if (A) {
+    libererArbre(A->so);
+    libererArbre(A->se);
+    libererArbre(A->no);
+    libererArbre(A->ne);
     free(A);
   }
 }
