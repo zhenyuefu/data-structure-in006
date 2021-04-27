@@ -193,20 +193,20 @@ ListeEntier distance_avec_prec(Graphe* G, int u, int v) {
 int reorganiseReseau(Reseau* R) {
   Graphe* G = creerGraphe(R);
   int nbsom = G->nbsom;
-  int nb_pass_arete[nbsom][nbsom];
-  memset(nb_pass_arete, 0, sizeof(nb_pass_arete));
+  int *nb_pass_arete = malloc(sizeof(int)*nbsom*nbsom);
+  memset(nb_pass_arete,0,sizeof(int)*nbsom*nbsom);
   ListeEntier l;
   for (int i = 0; i < G->nbcommod; i++) {
     l = distance_avec_prec(G, G->T_commod[i].e1, G->T_commod[i].e2);
     if (l == NULL) {
       continue;
     }
-    ListeEntier freelist =l;
+    ListeEntier freelist = l;
     while (l->suiv) {
       int u = l->u - 1;
 
       int v = l->suiv->u - 1;
-      nb_pass_arete[u][v]++;
+      nb_pass_arete[u*nbsom+v]++;
 
       l = l->suiv;
     }
@@ -215,7 +215,7 @@ int reorganiseReseau(Reseau* R) {
 
   for (int i = 0; i < nbsom; i++)
     for (int j = 0; j < nbsom; j++)
-      if (nb_pass_arete[i][j] > G->gamma) {
+      if (nb_pass_arete[i*nbsom+j] > G->gamma) {
         libererGraphe(G);
         return 0;
       }
