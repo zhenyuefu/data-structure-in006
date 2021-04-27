@@ -66,5 +66,22 @@ Reseau *reconstitueReseauHachage(Chaines *C, int size) {
     ajoute_commodites(R, node_first, node);
     list_chaine = list_chaine->suiv;
   }
+  liberer_hash(H);
   return R;
+}
+
+void liberer_node(NodeHachage *n) {
+  while (n) {
+    NodeHachage *tmp = n->suiv;
+    free(n);
+    n = tmp;
+  }
+}
+
+void liberer_hash(TableHachage *hash) {
+  for (int i = 0; i < hash->size; i++) {
+    if (hash->nodes[i]) liberer_node(hash->nodes[i]);
+  }
+  free(hash->nodes);
+  free(hash);
 }

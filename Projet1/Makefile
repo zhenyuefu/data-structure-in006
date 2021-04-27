@@ -4,7 +4,7 @@ objects = ListeChainee.o ArbreQuaternaire.o Hachage.o Reseau.o Chaine.o SVGwrite
 objectsReconstitue = ReconstitueReseau.o
 objectsTime = TimeTest.o
 objectsGraphe = ReorganiseReseau.o Graphe.o Struct_File.o Struct_Liste.o
-objectslist = $(objects) $(objectsReconstitue) $(objectsTime) $(objectsGraphe)
+objectslist = $(objects) $(objectsReconstitue) $(objectsTime) $(objectsGraphe) ChaineMain.o
 all = ChaineMain ReconstitueReseau Time ReorganiseReseau
 
 prog: $(all) 
@@ -25,5 +25,5 @@ Graphe.o : Graphe.h Struct_File.h Struct_Liste.h
 .PHONY : clean
 clean :
 	-rm $(all) $(objectslist)
-	-rm exemple.cha
-	-rm sd_projet.html
+	-rm exemple.res
+	-rm *.html

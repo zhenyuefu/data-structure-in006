@@ -10,7 +10,7 @@ int main() {
   Chaines* C = lectureChaines(f);
   fclose(f);
 
-  f = fopen("exemple.cha", "w");
+  f = fopen("exemple.res", "w");
   ecrireChaines(C, f);
   fclose(f);
 
