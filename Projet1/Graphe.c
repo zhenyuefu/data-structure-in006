@@ -1,6 +1,8 @@
 #include "Graphe.h"
 
 #include <stdio.h>
+
+#include "Struct_File.h"
 /* Creer le graphe correspondant au reseau R */
 Graphe* creerGraphe(Reseau* r) {
   Graphe* g = malloc(sizeof(Graphe));
@@ -48,7 +50,8 @@ Graphe* creerGraphe(Reseau* r) {
   while (c_commodite != NULL) {
     g->T_commod[i].e1 = c_commodite->extrA->num;
     g->T_commod[i].e2 = c_commodite->extrB->num;
-    // printf("%d %d %d\n", i, c_commodite->extrA->num, c_commodite->extrB->num);
+    // printf("%d %d %d\n", i, c_commodite->extrA->num,
+    // c_commodite->extrB->num);
     i++;
     c_commodite = c_commodite->suiv;
   }
@@ -82,11 +85,107 @@ void ecrireGraph(Graphe* g, FILE* f) {
 
 /* Retourne la distance entre les sommets-noeuds u et v dans le graphe G.
    (Cette version de la fonction n'est pas utilisee dans reorganiseReseau)*/
-// int distance_sans_prec(Graphe* G, int u, int v) { return 0; }
+int distance_sans_prec(Graphe* G, int u, int v) {
+  if (u == v) {
+    return 0;
+  }
+  int visited[G->nbsom];
+  for (int i = 0; i < G->nbsom; i++) {
+    visited[i] = 0;
+  }
+
+  S_file* queue = malloc(sizeof(S_file));
+  Init_file(queue);
+  enfile(queue, u);
+  visited[u - 1]++;
+
+  int depth = 0;
+  while (!estFileVide(queue)) {
+    int n = queue->size;
+    for (int i = 0; i < n; i++) {
+      int num = defile(queue);
+      if (num == v) return depth;
+      Sommet* som = G->T_som[num - 1];
+      Cellule_arete* c_arete = som->L_voisin;
+      while (c_arete != NULL) {
+        Arete* a = c_arete->a;
+        if (a->u == num) {
+          if (!visited[a->v - 1]) {
+            enfile(queue, a->v);
+            visited[a->v - 1]++;
+          }
+          c_arete = c_arete->usuiv;
+        } else {
+          if (!visited[a->u - 1]) {
+            enfile(queue, a->u);
+            visited[a->u - 1]++;
+          }
+          c_arete = c_arete->vsuiv;
+        }
+      }
+    }
+    depth++;
+  }
+
+  return -1;
+}
 
 /* Retourne une liste chainee d'entier contenant les sommets-noeuds de la plus
    courte chaine entre u et v dans le graphe G. */
-// ListeEntier distance_avec_prec(Graphe* G, int u, int v) { return NULL; }
+ListeEntier distance_avec_prec(Graphe* G, int u, int v) {
+  if (u == v) {
+    return 0;
+  }
+  int visited[G->nbsom];
+  int path[G->nbsom];
+  for (int i = 0; i < G->nbsom; i++) {
+    visited[i] = 0;
+    path[i] = -1;
+  }
+
+  S_file* queue = malloc(sizeof(S_file));
+  Init_file(queue);
+  enfile(queue, u);
+  visited[u - 1]++;
+
+  while (!estFileVide(queue)) {
+    int n = queue->size;
+    for (int i = 0; i < n; i++) {
+      int num = defile(queue);
+      if (num == v) break;
+      Sommet* som = G->T_som[num - 1];
+      Cellule_arete* c_arete = som->L_voisin;
+      while (c_arete != NULL) {
+        Arete* a = c_arete->a;
+        if (a->u == num) {
+          if (!visited[a->v - 1]) {
+            enfile(queue, a->v);
+            visited[a->v - 1]++;
+            path[a->v - 1] = num;
+          }
+          c_arete = c_arete->usuiv;
+        } else {
+          if (!visited[a->u - 1]) {
+            enfile(queue, a->u);
+            visited[a->u - 1]++;
+            path[a->u - 1] = num;
+          }
+          c_arete = c_arete->vsuiv;
+        }
+      }
+    }
+  }
+
+  ListeEntier liste = malloc(sizeof(ListeEntier));
+  Init_Liste(&liste);
+  ajoute_en_tete(&liste, v);
+  int p = path[v - 1];
+  while (p != -1) {
+    ajoute_en_tete(&liste, p);
+    p = path[p - 1];
+  }
+  return liste;
+}
 
 /* Reorganise le Reseau R tel qu'indique dans la quesiton 7.4 */
 // int reorganiseReseau(Reseau* R) { return 1; }
