@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
-                "GdeBiblio.txt",
-                "10"
+                "07397_pla",
+                "3"
             ],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",

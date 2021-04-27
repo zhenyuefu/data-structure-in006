@@ -54,4 +54,5 @@ void afficheReseauSVG(Reseau *R, char *nomInstance);
 
 /* Libere integralement la memoire occupee par le reseau R */
 void libererReseau(Reseau *R);
+
 #endif

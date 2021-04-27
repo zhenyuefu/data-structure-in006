@@ -9,7 +9,7 @@ int main(void) {
   Chaines *C = lectureChaines(f);
   fclose(f);
 
-  Reseau *R = reconstitueReseauHash(C, 57);
+  Reseau *R = reconstitueReseauHachage(C, 57);
   afficheReseauSVG(R, "test");
 
   f = fopen("14.res", "w");

@@ -1,6 +1,10 @@
 #ifndef __CHAINE_H__
 #define __CHAINE_H__
+
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* Liste chainee de points */
 typedef struct cellPoint {
@@ -8,7 +12,7 @@ typedef struct cellPoint {
   struct cellPoint *suiv; /* Cellule suivante dans la liste */
 } CellPoint;
 
-/* Celllule d une liste (chainee) de chaines */
+/* Cellule d une liste (chainee) de chaines */
 typedef struct cellChaine {
   int numero;              /* Numero de la chaine */
   CellPoint *points;       /* Liste des points de la chaine */

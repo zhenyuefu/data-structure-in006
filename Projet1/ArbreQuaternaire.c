@@ -1,7 +1,4 @@
-#include "ArbreQuat.h"
-
-#include <stdio.h>
-#include <stdlib.h>
+#include "ArbreQuaternaire.h"
 
 void chaineCoordMinMax(Chaines* C, double* xmin, double* ymin, double* xmax,
                        double* ymax) {
@@ -208,4 +205,15 @@ Reseau* reconstitueReseauArbre(Chaines* C) {
     list_chaine = list_chaine->suiv;
   }
   return R;
+}
+
+void liberer_arbre(ArbreQuat* A){
+  if (A){
+    liberer_arbre(A->so);
+    liberer_arbre(A->se);
+    liberer_arbre(A->no);
+    liberer_arbre(A->ne);
+    free(A->noeud);
+    free(A);
+  }
 }

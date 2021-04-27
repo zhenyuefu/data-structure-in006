@@ -38,7 +38,7 @@ Noeud *rechercheCreeNoeudHachage(Reseau *R, TableHachage *H, double x,
   return new_node;
 }
 
-Reseau *reconstitueReseauHash(Chaines *C, int size) {
+Reseau *reconstitueReseauHachage(Chaines *C, int size) {
   Reseau *R = malloc(sizeof(Reseau));
   R->nbNoeuds = 0;
   R->gamma = C->gamma;
