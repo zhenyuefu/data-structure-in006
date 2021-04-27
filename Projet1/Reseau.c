@@ -51,12 +51,12 @@ Reseau *reconstitueReseauListe(Chaines *C) {
 }
 
 void ajoute_voisins(Noeud *node1, Noeud *node2) {
-  CellNoeud *list_node1 = malloc(sizeof(CellNoeud));
   CellNoeud *voisins = node1->voisins;
   while (voisins != NULL) {
     if (voisins->nd == node2) return;
     voisins = voisins->suiv;
   }
+  CellNoeud *list_node1 = malloc(sizeof(CellNoeud));
   list_node1->nd = node2;
   list_node1->suiv = node1->voisins;
   CellNoeud *list_node2 = malloc(sizeof(CellNoeud));
@@ -167,6 +167,12 @@ void ecrireReseau(Reseau *R, FILE *f) {
 void liberer_noeud(CellNoeud *n) {
   while (n) {
     CellNoeud *tmp = n->suiv;
+    CellNoeud *voisin = n->nd->voisins;
+    while (voisin) {
+      CellNoeud *next = voisin->suiv;
+      free(voisin);
+      voisin = next;
+    }
     free(n->nd);
     free(n);
     n = tmp;

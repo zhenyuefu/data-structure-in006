@@ -11,12 +11,18 @@ int main(void) {
 
   Graphe *G = creerGraphe(R);
   ListeEntier list = distance_avec_prec(G, 1, 8);
-
-  while (list) {
-    printf("%d", list->u);
-    if (list->suiv) printf("->");
-    list = list->suiv;
+  ListeEntier iterlist = iterlist;
+  while (iterlist) {
+    printf("%d", iterlist->u);
+    if (iterlist->suiv) printf("->");
+    iterlist = iterlist->suiv;
   }
   puts("");
+  desalloue(&list);
+
+  printf("%d\n",reorganiseReseau((R)));
+  libererChaines(C);
+  libererReseau(R);
+  libererGraphe(G);
   return 0;
 }

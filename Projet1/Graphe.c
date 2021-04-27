@@ -1,6 +1,7 @@
 #include "Graphe.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "Struct_File.h"
 /* Creer le graphe correspondant au reseau R */
@@ -175,8 +176,9 @@ ListeEntier distance_avec_prec(Graphe* G, int u, int v) {
       }
     }
   }
+  free(queue);
 
-  ListeEntier liste = malloc(sizeof(ListeEntier));
+  ListeEntier liste;
   Init_Liste(&liste);
   ajoute_en_tete(&liste, v);
   int p = path[v - 1];
@@ -188,7 +190,54 @@ ListeEntier distance_avec_prec(Graphe* G, int u, int v) {
 }
 
 /* Reorganise le Reseau R tel qu'indique dans la quesiton 7.4 */
-// int reorganiseReseau(Reseau* R) { return 1; }
+int reorganiseReseau(Reseau* R) {
+  Graphe* G = creerGraphe(R);
+  int nbsom = G->nbsom;
+  int nb_pass_arete[nbsom][nbsom];
+  memset(nb_pass_arete, 0, sizeof(nb_pass_arete));
+  ListeEntier l;
+  for (int i = 0; i < G->nbcommod; i++) {
+    l = distance_avec_prec(G, G->T_commod[i].e1, G->T_commod[i].e2);
+    if (l == NULL) {
+      continue;
+    }
+    ListeEntier freelist =l;
+    while (l->suiv) {
+      int u = l->u - 1;
+
+      int v = l->suiv->u - 1;
+      nb_pass_arete[u][v]++;
+
+      l = l->suiv;
+    }
+    desalloue(&freelist);
+  }
+
+  for (int i = 0; i < nbsom; i++)
+    for (int j = 0; j < nbsom; j++)
+      if (nb_pass_arete[i][j] > G->gamma) {
+        libererGraphe(G);
+        return 0;
+      }
+  libererGraphe(G);
+  return 1;
+}
 
 /* Libere integralement la memoire occupee par le graphe G */
-// void libererGraphe(Graphe* G) {}
+void libererGraphe(Graphe* G) {
+  for (int i = 0; i < G->nbsom; i++) {
+    Cellule_arete* next = G->T_som[i]->L_voisin;
+    while (next != NULL) {
+      Cellule_arete* freenode = next;
+      next = next->a->u == i + 1 ? next->usuiv : next->vsuiv;
+      if (freenode->a->v == i + 1) {
+        free(freenode->a);
+        free(freenode);
+      }
+    }
+    free(G->T_som[i]);
+  }
+  free(G->T_som);
+  free(G->T_commod);
+  free(G);
+}

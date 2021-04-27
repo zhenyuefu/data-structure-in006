@@ -36,11 +36,22 @@ Noeud *rechercheCreeNoeudListe(Reseau *R, double x, double y);
 
 Reseau *reconstitueReseauListe(Chaines *C);
 
-void ecrireReseau(Reseau *R, FILE *f);
-int nbLiaisons(Reseau *R);
-int nbCommodites(Reseau *R);
 int countNodes(CellNoeud *list_node);
 void ajoute_voisins(Noeud *node1, Noeud *node2);
 void ajoute_commodites(Reseau *R, Noeud *node1, Noeud *node2);
+
+/* Ecrit dans le fichier f le contenu du Reseau R */
+void ecrireReseau(Reseau *R, FILE *f);
+
+/* Calcule et retourne le nombre de liaisons/aretes dans le reseau R */
+int nbLiaisons(Reseau *R);
+
+/* Calcule et retourne le nombre de commodites du reseau R */
+int nbCommodites(Reseau *R);
+
+/* Fonction (fournie) d'affichage au format html du reseau R */
 void afficheReseauSVG(Reseau *R, char *nomInstance);
+
+/* Libere integralement la memoire occupee par le reseau R */
+void libererReseau(Reseau *R);
 #endif
