@@ -41,8 +41,7 @@ Graphe* creerGraphe(Reseau* R);
 int distance_sans_prec(Graphe* G, int u, int v);
 
 /* Retourne une liste chainee d'entier contenant les sommets-noeuds de la plus
-   courte chaine
-   entre u et v dans le graphe G. Cette fonction est utilisee dans
+   courte chaine entre u et v dans le graphe G. Cette fonction est utilisee dans
    reorganiseReseau */
 ListeEntier distance_avec_prec(Graphe* G, int u, int v);
 

@@ -11,7 +11,7 @@
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
                 "07397_pla",
-                "3"
+                "2"
             ],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
