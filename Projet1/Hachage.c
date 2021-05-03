@@ -3,15 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int functionClef(int x, int y) { return y + (x + y) * (x + y + 1) / 2; }
-
-int functionHachage(int cle, int size) {
-  return (int)(size * ((double)cle * GOLDEN - (int)(cle * GOLDEN)));
-}
-
 Noeud *rechercheCreeNoeudHachage(Reseau *R, TableHachage *H, double x,
                                  double y) {
-  int clef = functionClef(x, y);
+  long long clef = functionClef(x, y);
   int hash = functionHachage(clef, H->size);
   NodeHachage *node_list = H->nodes[hash];
   while (node_list != NULL) {
